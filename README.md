@@ -2,7 +2,8 @@
 
 - Diagrama Entitat Relació:
 
-![Diagrama_ER](https://github.com/user-attachments/assets/3eaa1c2c-b75d-41d6-88d4-2b19f861a4e4)
+![Diagrama_ER](https://github.com/user-attachments/assets/092f200a-91f8-46e7-83a1-da6178f07444)
+
 
 - Diagrama de Casos d'Ús:
 
