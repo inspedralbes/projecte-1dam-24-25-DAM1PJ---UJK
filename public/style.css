@@ -1,0 +1,265 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --app-blue-primary: #0d6efd;
+    --app-blue-primary-rgb: 13, 110, 253;
+    --app-blue-darker: #0a58ca;
+    --app-blue-subtle: #cfe2ff;
+    --app-blue-very-light: #e7f1ff;
+    --app-white: #ffffff;
+    --app-grey-light: #f8f9fa;
+    --app-grey-medium: #dee2e6;
+    --app-grey-dark: #6c757d;
+    --app-text-dark: #212529;
+    --app-text-light: #ffffff;
+    --bs-primary: var(--app-blue-primary);
+    --bs-primary-rgb: var(--app-blue-primary-rgb);
+    --bs-body-bg: var(--app-white);
+    --bs-body-color: var(--app-text-dark);
+    --bs-border-color: var(--app-grey-medium);
+    --bs-link-color: var(--app-blue-primary);
+    --bs-link-hover-color: var(--app-blue-darker);
+    --bs-emphasis-color: #000;
+    --bs-secondary-bg: var(--app-grey-light);
+    --bs-tertiary-bg: var(--app-blue-very-light);
+    --app-bg-light: var(--app-blue-very-light);
+    --app-card-bg: var(--app-white);
+    --app-card-border: var(--app-grey-medium);
+    --app-card-header-bg: var(--app-blue-subtle);
+    --app-card-header-color: var(--app-text-dark);
+    --app-card-icon-color: var(--app-blue-primary);
+    --app-incident-card-bg: var(--app-white);
+    --app-incident-card-border: var(--app-grey-medium);
+    --app-incident-card-hover-border: var(--app-blue-primary);
+    --app-input-bg: var(--app-white);
+    --app-input-border: var(--app-grey-medium);
+    --app-input-focus-border: var(--app-blue-primary);
+    --app-input-focus-shadow: rgba(var(--app-blue-primary-rgb), 0.25);
+    --app-label-color: var(--app-grey-dark);
+}
+[data-bs-theme="light"] {
+  color-scheme: light;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    background-color: var(--app-bg-light);
+    color: var(--bs-body-color);
+}
+
+.main-content-area {
+    background-color: var(--app-bg-light);
+}
+
+
+.app-header {
+    border-bottom: 3px solid var(--app-blue-darker);
+}
+.app-header .badge {
+    font-size: 0.8em;
+    font-weight: 600; /* Make badge text bolder */
+}
+
+
+/* --- Card Styles --- */
+.app-card{
+    background-color: var(--app-card-bg);
+    border: 1px solid var(--app-card-border);
+    border-radius: 0.5rem;
+}
+.app-card .card-header {
+    background-color: var(--app-card-header-bg);
+    border-bottom: 1px solid var(--app-card-border);
+    color: var(--app-card-header-color);
+    padding: 0.75rem 1.25rem;
+    font-weight: 600;
+}
+.app-card .card-header i {
+    color: var(--app-card-icon-color); /* Use defined primary blue */
+}
+.app-card .card-body {
+    padding: 1.5rem;
+}
+
+/* --- Form Styles --- */
+.form-label-sm{
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--app-label-color);
+    margin-bottom: 0.3rem;
+}
+
+.form-control, .form-select {
+    background-color: var(--app-input-bg);
+    border: 1px solid var(--app-input-border);
+    color: var(--bs-body-color);
+    border-radius: 0.3rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--app-input-focus-border);
+    box-shadow: 0 0 0 0.25rem var(--app-input-focus-shadow);
+    background-color: var(--app-input-bg);
+    color: var(--bs-body-color);
+}
+.form-control::placeholder {
+    color: var(--app-grey-dark);
+    opacity: 0.8;
+}
+.form-control:disabled, .form-control[readonly] {
+  background-color: var(--app-grey-light);
+  opacity: 0.7;
+}
+
+.form-control-sm, .form-select-sm {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+    min-height: calc(1.5em + 0.8rem + 2px);
+}
+textarea.form-control-sm {
+     min-height: calc(4 * (1.5em + 0.8rem + 2px));
+}
+
+#prioridadGroup label.btn{
+  font-weight: 500;
+}
+#prioridadGroup label.btn i{
+    font-size: 1em;
+    vertical-align: -0.1em;
+    margin-right: 0.3em;
+}
+#prioridadGroup .btn-check:checked + .btn{
+   font-weight: 600;
+}
+#prioridadGroup .btn-check:checked + .btn-outline-warning{
+    color: var(--app-text-dark);
+}
+
+form.was-validated #prioridadGroup:invalid ~ .invalid-feedback,
+#prioridadGroup:has(.is-invalid) ~ .invalid-feedback,
+#prioridadGroup:has(input[type="radio"]:invalid) ~ #prioridad-error{
+    display: block;
+}
+
+#formFeedback .alert, #panelFeedbackContainer .alert {
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    margin-bottom: 0;
+    border-radius: 0.3rem;
+}
+
+
+.filter-bar{
+    background-color: var(--app-white);
+    padding: 0.75rem;
+    margin: -1.5rem -1.5rem 1rem -1.5rem;
+    border-bottom: 1px solid var(--app-grey-medium);
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+}
+
+.filter-bar .form-select,
+.filter-bar .form-control{
+    background-color: var(--app-grey-light);
+    border-color: var(--app-grey-medium);
+}
+.filter-bar .input-group-text{
+     background-color: var(--app-grey-light);
+     border-color: var(--app-grey-medium);
+     color: var(--app-grey-dark);
+}
+
+.card-incidencia {
+    border: 1px solid var(--app-incident-card-border);
+    margin-bottom: 0.75rem;
+    border-radius: 0.4rem;
+    background-color: var(--app-incident-card-bg);
+    transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    font-size: 0.85rem;}
+.card-incidencia:hover{
+     transform: translateY(-2px);
+     box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
+     border-color: var(--app-incident-card-hover-border);
+}
+
+.card-incidencia .card-header {
+    background-color: rgba(var(--app-blue-primary-rgb), 0.05); /* Very subtle blue tint */
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--app-grey-medium);
+}
+.card-incidencia .card-header .card-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--app-text-dark);
+}
+.card-incidencia .card-header .badge {
+    font-size: 0.7rem;
+}
+
+.card-incidencia .card-body {
+    padding: 1rem;
+    line-height: 1.5;
+}
+
+.card-incidencia .card-text.incidencia-meta {
+    font-size: 0.8em;
+    color: var(--app-grey-dark);
+    margin-top: 0.75rem;
+    border-top: 1px dashed var(--app-grey-medium);
+    padding-top: 0.75rem;
+}
+.card-incidencia .card-text.incidencia-meta strong {
+    color: var(--app-text-dark);
+}
+.card-incidencia .action-buttons {
+     margin-top: 0.75rem;
+}
+.card-incidencia .action-buttons .btn {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+}
+
+.card-incidencia.estado-cerrada{
+    opacity: 0.7;
+    background-color: var(--app-grey-light);
+}
+.card-incidencia.estado-cerrada:hover{
+     opacity: 0.85;
+     border-color: var(--app-grey-dark);
+}
+.card-incidencia.estado-cerrada .card-header .card-title{
+     text-decoration: line-through;
+     color: var(--app-grey-dark);
+}
+
+.overflow-auto {
+  scrollbar-width: thin;
+  scrollbar-color: var(--app-grey-medium) var(--app-grey-light); /* Grey thumb, light grey track */
+}
+
+.overflow-auto::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.overflow-auto::-webkit-scrollbar-track {
+  background: var(--app-grey-light);
+  border-radius: 4px;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb {
+  background-color: var(--app-grey-medium);
+  border-radius: 4px;
+  border: 2px solid var(--app-grey-light);
+}
+
+.overflow-auto::-webkit-scrollbar-thumb:hover {
+  background-color: var(--app-grey-dark);
+}
+
+#contadorIncidencias {
+     font-size: 0.75rem;
+     font-weight: 600;
+}
