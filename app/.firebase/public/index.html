@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Incidencias - DAM</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="app-header bg-primary text-white shadow-sm px-3 py-2 mb-4 sticky-top">
+        <div class="d-flex align-items-center">
+            <i class="bi bi-tools fs-3 me-2"></i>
+            <h1 class="h4 mb-0 me-3 text-white">Gestión Incidencias</h1>
+            <span class="badge bg-light text-primary fw-normal">IES Demo</span>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <!-- Add a very light background to the main area for slight contrast -->
+    <main class="container-fluid px-md-4 pb-4 main-content-area">
+        <div class="row g-4">   
+            <div class="col-lg-5 col-md-6">
+                <div class="card h-100 app-card shadow-sm">
+                    <div class="card-header d-flex align-items-center">
+                        <i class="bi bi-plus-circle-fill me-2"></i>
+                        <h5 class="mb-0">Reportar Nueva Incidencia</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="nuevaIncidenciaForm" novalidate>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-sm-6">
+                                    <label for="nombreUsuario" class="form-label form-label-sm">Tu Nombre</label>
+                                    <input type="text" class="form-control form-control-sm" id="nombreUsuario" name="nombreUsuario" placeholder="Nombre Apellido" required>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="rolUsuario" class="form-label form-label-sm">Tu Rol</label>
+                                    <select class="form-select form-select-sm" id="rolUsuario" name="rolUsuario" required>
+                                        <option value="" selected disabled>Selecciona...</option>
+                                        <option value="alumno">Alumno/a</option>
+                                        <option value="profesor">Profesor/a</option>
+                                        <option value="personal">Personal</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                             <div class="row g-3 mb-3">
+                                <div class="col-sm-6">
+                                    <label for="ubicacion" class="form-label form-label-sm">Ubicación / Aula</label>
+                                    <input type="text" class="form-control form-control-sm" id="ubicacion" name="ubicacion" placeholder="Ej: Aula 2.3, Taller..." required>
+                                    <div class="invalid-feedback">Por favor, indica la ubicación.</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="equipo" class="form-label form-label-sm">Equipo / Nº Serie (Opcional)</label>
+                                    <input type="text" class="form-control form-control-sm" id="equipo" name="equipo" placeholder="Ej: PC-04, PROYECTOR-A1">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="descripcion" class="form-label form-label-sm">Descripción del Problema</label>
+                                <textarea class="form-control form-control-sm" id="descripcion" name="descripcion" rows="4" placeholder="Describe qué ocurre, cuándo empezó, qué estabas haciendo..." required></textarea>
+                                <div class="invalid-feedback">Por favor, describe la incidencia.</div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label form-label-sm d-block mb-2">Prioridad</label>
+                                <div id="prioridadGroup" class="btn-group d-flex" role="group" aria-label="Prioridad de incidencia">
+                                    <input type="radio" class="btn-check" name="prioridad" id="prioridad-baja" value="baja" autocomplete="off">
+                                    <label class="btn btn-sm btn-outline-secondary flex-fill" for="prioridad-baja"><i class="bi bi-arrow-down"></i> Baja</label>
+
+                                    <input type="radio" class="btn-check" name="prioridad" id="prioridad-media" value="media" autocomplete="off" checked>
+                                    <label class="btn btn-sm btn-outline-primary flex-fill" for="prioridad-media"><i class="bi bi-dash-lg"></i> Media</label>
+
+                                    <input type="radio" class="btn-check" name="prioridad" id="prioridad-alta" value="alta" autocomplete="off">
+                                    <label class="btn btn-sm btn-outline-warning flex-fill" for="prioridad-alta"><i class="bi bi-arrow-up"></i> Alta</label>
+
+                                    <input type="radio" class="btn-check" name="prioridad" id="prioridad-critica" value="critica" autocomplete="off">
+                                    <label class="btn btn-sm btn-outline-danger flex-fill" for="prioridad-critica"><i class="bi bi-exclamation-lg"></i> Crítica</label>
+                                </div>
+                                <input type="text" id="prioridad-hidden-validation" required style="width:0; height:0; padding:0; border:0; position: absolute; opacity: 0;">
+                                <div class="invalid-feedback" id="prioridad-error" style="display: none;">Debes seleccionar una prioridad.</div>
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary fw-semibold">
+                                    <i class="bi bi-send-fill me-2"></i>Enviar Incidencia
+                                </button>
+                            </div>
+                            <div id="formFeedback" class="mt-3"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7 col-md-6">
+                 <!-- Card styling will be handled by CSS -->
+                <div class="card h-100 app-card shadow-sm">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                       <div class="d-flex align-items-center">
+                           <!-- Icon color set in CSS -->
+                           <i class="bi bi-list-task me-2"></i>
+                           <h5 class="mb-0">Listado de Incidencias</h5>
+                       </div>
+                       <!-- Use a primary badge style -->
+                       <span id="contadorIncidencias" class="badge bg-primary-subtle text-primary-emphasis rounded-pill">0 incidencias</span>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                         <!-- Filter Bar -->
+                         <div class="filter-bar d-flex flex-wrap gap-2 border-bottom pb-3 mb-3">
+                            <div class="input-group input-group-sm flex-grow-1" style="min-width: 200px;">
+                                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                <input type="search" id="filtroBusqueda" class="form-control" placeholder="Buscar por título, ID, descripción...">
+                            </div>
+                            <select id="filtroEstado" class="form-select form-select-sm" style="max-width: 150px;">
+                                <option value="todas" selected>Estado: Todas</option>
+                                <option value="abierta">Abierta</option>
+                                <option value="en progreso">En Progreso</option>
+                                <option value="cerrada">Cerrada</option>
+                            </select>
+                             <select id="ordenacion" class="form-select form-select-sm" style="max-width: 160px;">
+                                <option value="recientes" selected>Más Recientes</option>
+                                <option value="antiguas">Más Antiguas</option>
+                                <option value="prioridad">Prioridad (Alta > Baja)</option>
+                            </select>
+                         </div>
+                         <div id="listaIncidencias" class="incident-list-container flex-grow-1 overflow-auto">
+                         </div>
+                          <div id="panelFeedbackContainer" class="mt-2"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div> 
+    </main>
+</body>
+</html>
+
