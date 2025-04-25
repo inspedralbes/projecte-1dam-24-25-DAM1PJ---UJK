@@ -5,11 +5,11 @@
 **User Story:**
 *Como profesor del Instituto Pedralbes, quiero una aplicación para reportar y seguir incidencias, para que el personal responsable las resuelva lo antes posible.*
 
-- Diagrama Entitat Relació:
+- Diagrama Entitat Relació (Millorar):
 
 ![Diagrama_ER](https://github.com/user-attachments/assets/22e2ea9c-c393-47b6-9e0b-7d7c4d288406)
 
-- Diagrama de Casos d'Ús (Millorar):
+- Diagrama de Casos d'Ús (Afegir):
 
 ![Diagrames de Casos d'Ús drawio](https://github.com/user-attachments/assets/3a9354f2-5cb1-4d2d-b243-0d5b880450fe)
 
