@@ -2,7 +2,7 @@
 
 # Gestor d'Incidències
 
-**User Story:** 
+***User Story:***
 Como profesor del Instituto Pedralbes, quiero una aplicación para reportar y seguir incidencias, para que el personal responsable las resuelva lo antes posible.
 
 - Diagrama Entitat Relació:
