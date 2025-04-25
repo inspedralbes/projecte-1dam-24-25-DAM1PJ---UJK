@@ -12,9 +12,10 @@
 
 - Diagrama de Casos d'Ús (Millorar):
 
-![Diagrama d'us](https://github.com/user-attachments/assets/941f2e4e-8a3a-4ab3-a251-ce47162c8ffe)
+![Diagrames de Casos d'Ús drawio](https://github.com/user-attachments/assets/3a9354f2-5cb1-4d2d-b243-0d5b880450fe)
 
 - Esquema de Pantalles de l'Aplicació:
+  
 ![Esquema de pantalles drawio](https://github.com/user-attachments/assets/40ab0e51-ab5c-4a46-9073-0887113bc19e)
 
 **DEMO del resultat:**
