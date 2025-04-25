@@ -16,7 +16,7 @@
 
 - Esquema de Pantalles de l'Aplicació:
 
-![Esquema de pantalles d'aplicació-Pàgina-2 drawio](https://github.com/user-attachments/assets/704d6537-8396-4ff8-ac26-75c160e88542)
+![Esquema de pantalles drawio](https://github.com/user-attachments/assets/31145ec2-1a1f-4993-bea0-f7a07b2dc936)
 
 **DEMO del resultat:**
 
