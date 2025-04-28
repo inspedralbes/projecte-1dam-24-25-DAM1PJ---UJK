@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Temps de generació: 23-04-2025 a les 08:35:47
+-- Temps de generació: 28-04-2025 a les 10:27:10
 -- Versió del servidor: 8.0.41-0ubuntu0.22.04.1
 -- Versió de PHP: 8.2.23
 
@@ -33,7 +33,8 @@ CREATE TABLE `actuacions` (
   `id_usuari` smallint DEFAULT NULL,
   `data_actuacio` datetime NOT NULL,
   `descripcio` tinytext,
-  `finaliza_actuació` datetime NOT NULL
+  `finaliza_actuació` datetime NOT NULL,
+  `id_tecnic` smallint DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -67,6 +68,17 @@ CREATE TABLE `incidencia` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de la taula `tecnic`
+--
+
+CREATE TABLE `tecnic` (
+  `id_tecnic` smallint NOT NULL,
+  `nom` tinytext
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de la taula `tipus`
 --
 
@@ -84,7 +96,7 @@ CREATE TABLE `tipus` (
 CREATE TABLE `usuari` (
   `id_usuari` smallint NOT NULL,
   `nom` tinytext,
-  `rol` enum('Alumno/a','Profesor/a','Tecnico') DEFAULT NULL,
+  `rol` enum('Alumno','Profesor','Tecnico') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `id_departament` smallint DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -98,7 +110,8 @@ CREATE TABLE `usuari` (
 ALTER TABLE `actuacions`
   ADD PRIMARY KEY (`id_actuació`),
   ADD KEY `id_incidencia` (`id_incidencia`),
-  ADD KEY `id_usuari` (`id_usuari`);
+  ADD KEY `id_usuari` (`id_usuari`),
+  ADD KEY `fk_actuacions_tecnic` (`id_tecnic`);
 
 --
 -- Índexs per a la taula `departaments`
@@ -114,6 +127,12 @@ ALTER TABLE `incidencia`
   ADD KEY `id_tipus` (`id_tipus`),
   ADD KEY `id_usuari` (`id_usuari`),
   ADD KEY `creada` (`creada`);
+
+--
+-- Índexs per a la taula `tecnic`
+--
+ALTER TABLE `tecnic`
+  ADD PRIMARY KEY (`id_tecnic`);
 
 --
 -- Índexs per a la taula `tipus`
@@ -151,6 +170,12 @@ ALTER TABLE `incidencia`
   MODIFY `id_incidencia` tinyint NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT per la taula `tecnic`
+--
+ALTER TABLE `tecnic`
+  MODIFY `id_tecnic` smallint NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT per la taula `tipus`
 --
 ALTER TABLE `tipus`
@@ -165,7 +190,8 @@ ALTER TABLE `tipus`
 --
 ALTER TABLE `actuacions`
   ADD CONSTRAINT `actuacions_ibfk_1` FOREIGN KEY (`id_incidencia`) REFERENCES `incidencia` (`id_incidencia`),
-  ADD CONSTRAINT `actuacions_ibfk_2` FOREIGN KEY (`id_usuari`) REFERENCES `usuari` (`id_usuari`);
+  ADD CONSTRAINT `actuacions_ibfk_2` FOREIGN KEY (`id_usuari`) REFERENCES `usuari` (`id_usuari`),
+  ADD CONSTRAINT `fk_actuacions_tecnic` FOREIGN KEY (`id_tecnic`) REFERENCES `tecnic` (`id_tecnic`);
 
 --
 -- Restriccions per a la taula `incidencia`
@@ -173,6 +199,12 @@ ALTER TABLE `actuacions`
 ALTER TABLE `incidencia`
   ADD CONSTRAINT `incidencia_ibfk_1` FOREIGN KEY (`id_tipus`) REFERENCES `tipus` (`id_tipus`),
   ADD CONSTRAINT `incidencia_ibfk_2` FOREIGN KEY (`id_usuari`) REFERENCES `usuari` (`id_usuari`);
+
+--
+-- Restriccions per a la taula `tecnic`
+--
+ALTER TABLE `tecnic`
+  ADD CONSTRAINT `tecnic_ibfk_1` FOREIGN KEY (`id_tecnic`) REFERENCES `actuacions` (`id_tecnic`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Restriccions per a la taula `usuari`
