@@ -1,0 +1,57 @@
+<%- include('../partials/header', { title: 'Afegir incidència' }) %>
+
+<div class="d-flex justify-content-center my-5">
+  <div class="col-lg-8 col-md-10">
+    <div class="card shadow-sm">
+      <div class="card-header bg-dark text-white">Nova Incidència</div>
+      <div class="card-body">
+        <form action="/incidencies/create" method="POST">
+          <div class="mb-3">
+            <label for="id_usuari" class="form-label">ID Usuari</label>
+            <input type="number" name="id_usuari" class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label for="id_tipus" class="form-label">ID Tipus</label>
+            <input type="number" name="id_tipus" class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label for="descripcio" class="form-label">Descripció</label>
+            <textarea name="descripcio" class="form-control" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="datetime_creada" class="form-label">Data i hora de creació</label>
+            <input type="datetime-local" name="datetime_creada" class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label for="ubicacio" class="form-label">Ubicació</label>
+            <input type="text" name="ubicacio" class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label for="estat" class="form-label">Estat</label>
+            <select name="estat" class="form-control" required>
+              <option value="Oberta">Oberta</option>
+              <option value="En procès">En procès</option>
+              <option value="Tancada">Tancada</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="prioritat" class="form-label">Prioritat</label>
+            <select name="prioritat" class="form-control" required>
+              <option value="Baixa">Baixa</option>
+              <option value="Mitjana">Mitjana</option>
+              <option value="Alta">Alta</option>
+              <option value="Critica">Critica</option>
+            </select>
+          </div>
+          <div class="d-grid">
+            <button type="submit" class="btn btn-success">
+              <i class="bi bi-send-fill me-2"></i>Crear Incidència
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

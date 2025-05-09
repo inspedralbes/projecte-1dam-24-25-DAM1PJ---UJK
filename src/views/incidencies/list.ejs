@@ -1,0 +1,78 @@
+<%- include('../partials/header', { title: 'Llista d\'incidències' }) %>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Llistat de Incidències</h2>
+    <span><%= incidencies.length %> incidència<%= incidencies.length !== 1 ? 's' : '' %></span>
+  </div>
+
+  <!-- Buscador i filtres -->
+  <div class="d-flex flex-column flex-md-row mb-4 gap-2">
+    <input type="text" id="searchInput" class="form-control" placeholder="Buscar per títol, ID, descripció...">
+    
+    <select class="form-select w-auto" id="filterEstado">
+      <option value="">Estat: Tots</option>
+      <option value="oberta">Oberta</option>
+      <option value="en procés">En procés</option>
+      <option value="tancada">Tancada</option>
+    </select>
+
+    <select class="form-select w-auto" id="sortOrder">
+      <option value="recent">Més Recents</option>
+      <option value="antic">Més Antics</option>
+    </select>
+  </div>
+
+  <!-- Llistat d'incidències -->
+  <div id="incidentList">
+    <% incidencies.forEach(incidencia => { %>
+      <div class="card mb-3 shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <strong>ID: <%= String(incidencia.id_incidencia).slice(0, 7) %>...</strong>
+          <span class="badge bg-primary text-uppercase"><%= incidencia.prioritat %></span>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Incidència en <%= incidencia.ubicacio %></h5>
+          <p class="card-text"><%= incidencia.descripcio %></p>
+          <div class="d-flex flex-wrap align-items-center gap-3 text-muted small">
+            <span>📍 <%= incidencia.ubicacio %></span>
+            <span>🆔 <%= incidencia.id_incidencia %></span>
+            <span>👤 <%= incidencia.nom_usuari || 'Usuari' %></span>
+            <span>📅 <%= new Date(incidencia.datetime_creada).toLocaleDateString() %>, <%= new Date(incidencia.datetime_creada).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) %></span>
+          </div>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center">
+          <span class="badge bg-info text-dark text-capitalize"><%= incidencia.estat %></span>
+          <div class="d-flex gap-2">
+            <a href="/incidencies/<%= incidencia.id_incidencia %>/edit" class="btn btn-sm btn-outline-success" title="Editar"><i class="bi bi-pencil"></i></a>
+            <a href="/incidencies/<%= incidencia.id_incidencia %>/delete" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></a>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
+
+<script>
+  // Exemple senzill per filtrar per estat
+  document.getElementById('filterEstado').addEventListener('change', function () {
+    const estado = this.value.toLowerCase();
+    document.querySelectorAll('#incidentList .card').forEach(card => {
+      const badge = card.querySelector('.card-footer .badge').textContent.toLowerCase();
+      card.style.display = (!estado || badge.includes(estado)) ? 'block' : 'none';
+    });
+  });
+
+  // Filtres bàsics per cerca
+  document.getElementById('searchInput').addEventListener('input', function () {
+    const val = this.value.toLowerCase();
+    document.querySelectorAll('#incidentList .card').forEach(card => {
+      card.style.display = card.innerText.toLowerCase().includes(val) ? 'block' : 'none';
+    });
+  });
+
+  // Ordenar (placeholder: funcionalitat extra si vols afegir JS)
+</script>
+
+
