@@ -1,47 +1,89 @@
 <%- include('../partials/header', { title: 'Editar incidència' }) %>
 
-<h1>Editar incidència</h1>
-<form action="/incidencies/<%= incidencia.id_incidencia %>/update" method="POST">
-  <div class="mb-3">
-    <label for="id_usuari" class="form-label">ID Usuari</label>
-    <input type="number" name="id_usuari" value="<%= incidencia.id_usuari %>" class="form-control" required />
+<div class="container mt-5">  
+  <div class="card shadow"> 
+    <div class="card-header bg-dark text-white"> 
+      <h4 class="mb-0">Editar Incidència</h4> 
+    </div>
+    <div class="card-body"> 
+      <form action="/incidencies/<%= incidencia.id_incidencia %>/update" method="POST">
+        
+        <div class="mb-3">
+          <label for="id_usuari" class="form-label">Usuari</label> 
+          <select name="id_usuari" id="id_usuari" class="form-select" required>
+            <%# Asegurarse que 'usuaris' se pasa desde el controlador %>
+            <% if (typeof usuaris !== 'undefined' && usuaris.length > 0) { %>
+              <% usuaris.forEach(usuari => { %>
+                <option value="<%= usuari.id_usuari %>" <%= usuari.id_usuari === incidencia.id_usuari ? 'selected' : '' %>>
+                  <%= usuari.id_usuari %> - <%= usuari.nom %>
+                </option>
+              <% }) %>
+            <% } else if (incidencia.id_usuari) { %>
+              <%# Fallback si usuaris no está disponible pero tenemos un id_usuari %>
+              <option value="<%= incidencia.id_usuari %>" selected>ID: <%= incidencia.id_usuari %> (Actual, llista no disponible)</option>
+            <% } %>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="id_tipus" class="form-label">Tipus</label> 
+          <select name="id_tipus" id="id_tipus" class="form-select" required>
+            <%# Asegurarse que 'tipusList' se pasa desde el controlador %>
+            <% if (typeof tipusList !== 'undefined' && tipusList.length > 0) { %>
+              <% tipusList.forEach(tipus => { %>
+                <option value="<%= tipus.id_tipus %>" <%= tipus.id_tipus === incidencia.id_tipus ? 'selected' : '' %>>
+                  <%= tipus.nom %>
+                </option>
+              <% }) %>
+            <% } else if (incidencia.id_tipus) { %>
+              <%# Fallback si tipusList no está disponible pero tenemos un id_tipus %>
+              <option value="<%= incidencia.id_tipus %>" selected>ID: <%= incidencia.id_tipus %> (Actual, llista no disponible)</option>
+            <% } %>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="descripcio" class="form-label">Descripció</label>
+          <textarea name="descripcio" id="descripcio" class="form-control" rows="4" required><%= incidencia.descripcio %></textarea> 
+        </div>
+
+        <div class="mb-3">
+          <label for="datetime_creada" class="form-label">Data i hora de creació</label>
+          <input type="datetime-local" name="datetime_creada" id="datetime_creada" value="<%= incidencia.datetime_creada.toISOString().slice(0, 16) %>" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+          <label for="ubicacio" class="form-label">Ubicació</label>
+          <input type="text" name="ubicacio" id="ubicacio" value="<%= incidencia.ubicacio %>" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+          <label for="estat" class="form-label">Estat</label>
+          <select name="estat" id="estat" class="form-select" required> 
+            <option <%= incidencia.estat === 'Oberta' ? 'selected' : '' %> value="Oberta">Oberta</option>
+            <option <%= incidencia.estat === 'En procès' ? 'selected' : '' %> value="En procès">En procès</option>
+            <option <%= incidencia.estat === 'Tancada' ? 'selected' : '' %> value="Tancada">Tancada</option>
+          </select>
+        </div>
+
+        <div class="mb-4"> 
+          <label for="prioritat" class="form-label">Prioritat</label>
+          <select name="prioritat" id="prioritat" class="form-select" required> 
+            <option <%= incidencia.prioritat === 'Baixa' ? 'selected' : '' %> value="Baixa">Baixa</option>
+            <option <%= incidencia.prioritat === 'Mitjana' ? 'selected' : '' %> value="Mitjana">Mitjana</option>
+            <option <%= incidencia.prioritat === 'Alta' ? 'selected' : '' %> value="Alta">Alta</option>
+            <option <%= incidencia.prioritat === 'Critica' ? 'selected' : '' %> value="Critica">Critica</option>
+          </select>
+        </div>
+
+        <div class="d-grid"> 
+          <button type="submit" class="btn btn-success"> 
+            <i class="bi bi-save me-2"></i> Actualitzar Incidència
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
-  <div class="mb-3">
-    <label for="id_tipus" class="form-label">ID Tipus</label>
-    <input type="number" name="id_tipus" value="<%= incidencia.id_tipus %>" class="form-control" required />
-  </div>
-  <div class="mb-3">
-    <label for="descripcio" class="form-label">Descripció</label>
-    <textarea name="descripcio" class="form-control" required><%= incidencia.descripcio %></textarea>
-  </div>
-  <div class="mb-3">
-    <label for="datetime_creada" class="form-label">Data i hora de creació</label>
-    <input type="datetime-local" name="datetime_creada" value="<%= incidencia.datetime_creada.toISOString().slice(0, 16) %>" class="form-control" required />
-  </div>
-  <div class="mb-3">
-    <label for="ubicacio" class="form-label">Ubicació</label>
-    <input type="text" name="ubicacio" value="<%= incidencia.ubicacio %>" class="form-control" required />
-  </div>
-  <div class="mb-3">
-    <label for="estat" class="form-label">Estat</label>
-    <select name="estat" class="form-control" required>
-      <option <%= incidencia.estat === 'Oberta' ? 'selected' : '' %> value="Oberta">Oberta</option>
-      <option <%= incidencia.estat === 'En procès' ? 'selected' : '' %> value="En procès">En procès</option>
-      <option <%= incidencia.estat === 'Tancada' ? 'selected' : '' %> value="Tancada">Tancada</option>
-    </select>
-  </div>
-  <div class="mb-3">
-    <label for="prioritat" class="form-label">Prioritat</label>
-    <select name="prioritat" class="form-control" required>
-      <option <%= incidencia.prioritat === 'Baixa' ? 'selected' : '' %> value="Baixa">Baixa</option>
-      <option <%= incidencia.prioritat === 'Mitjana' ? 'selected' : '' %> value="Mitjana">Mitjana</option>
-      <option <%= incidencia.prioritat === 'Alta' ? 'selected' : '' %> value="Alta">Alta</option>
-      <option <%= incidencia.prioritat === 'Critica' ? 'selected' : '' %> value="Critica">Critica</option>
-    </select>
-  </div>
-  <button type="submit" class="btn btn-primary">Actualitzar</button>
-</form>
+</div>
 
 <%- include('../partials/footer') %>
-
-  

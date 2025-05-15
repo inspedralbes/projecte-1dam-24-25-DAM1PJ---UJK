@@ -24,16 +24,12 @@ const Actuacio = sequelize.define('Actuacio', {
     type: DataTypes.TEXT,
     allowNull: false,
   },
-  id_usuari: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
   id_incidencia: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
 }, {
-  tableName: 'actuacions',
+  tableName: 'Actuacio',
   timestamps: false,
 });
 

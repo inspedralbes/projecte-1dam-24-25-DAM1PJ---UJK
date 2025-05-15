@@ -1,0 +1,28 @@
+<%- include('partials/header', { title: 'Iniciar Sessió' }) %>
+
+<div class="container py-5" style="max-width: 500px;">
+  <h1 class="mb-4 text-center">Iniciar Sessió</h1>
+
+  <% if (typeof error !== 'undefined' && error) { %>
+    <div class="alert alert-danger" role="alert">
+      <%= error %>
+    </div>
+  <% } %>
+
+  <form action="/login" method="POST">
+    <div class="mb-3">
+      <label for="nom" class="form-label">Nom d'usuari</label>
+      <input type="text" class="form-control" id="nom" name="nom" required>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Contrasenya</label>
+      <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+    <button type="submit" class="btn btn-primary w-100" >Iniciar Sessió</button>
+  </form>
+  <p class="mt-3 text-center">
+    No tens un compte? <a href="/register">Registra't aquí</a>
+  </p>
+</div>
+
+<%- include('partials/footer') %>

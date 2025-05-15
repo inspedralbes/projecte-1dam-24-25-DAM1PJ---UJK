@@ -1,0 +1,109 @@
+<%- include('../partials/header', { title: 'Llista d\'actuacions' }) %>
+
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Llistat d'Actuacions</h2>
+    <span><%= actuacions.length %> actuació<%= actuacions.length !== 1 ? 'ns' : '' %></span>
+  </div>
+
+  <!-- Buscador i filtres -->
+  <div class="d-flex flex-column flex-md-row mb-4 gap-2">
+    <input type="text" id="searchInput" class="form-control" placeholder="Buscar per descripció, tècnic, incidència...">
+
+    <select class="form-select w-auto" id="filterFinalitzada">
+      <option value="">Finalitzada: Totes</option>
+      <option value="true">Sí</option>
+      <option value="false">No</option>
+    </select>
+
+    <select class="form-select w-auto" id="sortOrder">
+      <option value="recent">Més Recents</option>
+      <option value="antic">Més Antics</option>
+    </select>
+  </div>
+
+  <!-- Llistat d'actuacions -->
+  <div id="actuacioList">
+    <% actuacions.forEach(actuacio => { %>
+      <div class="card mb-3 shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <strong>ID: <%= actuacio.id_actuacio %></strong>
+        </div>
+
+        <div class="card-body">
+          <h5 class="card-title">
+            Actuació per 
+            <%= actuacio.tecnic && actuacio.tecnic.nom ? actuacio.tecnic.nom : 'Tècnic' %>
+          </h5>
+          <p class="card-text"><%= actuacio.descripcio %></p>
+
+          <div class="d-flex flex-wrap align-items-center gap-3 text-muted small">
+            <span>🛠️ Tècnic: <%= actuacio.tecnic && actuacio.tecnic.nom ? actuacio.tecnic.nom : actuacio.id_tecnic %></span>
+            <span>🔧 Incidència: <%= actuacio.id_incidencia %></span>
+            <span>
+              📅 
+              <%= new Date(actuacio.data_actuacio).toLocaleDateString() %> - 
+              <%= new Date(actuacio.data_actuacio).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) %>
+            </span>
+          </div>
+        </div>
+
+        <!-- Footer amb estat a l'esquerra i botons a la dreta -->
+        <div class="card-footer d-flex justify-content-between align-items-center">
+          <!-- Estat -->
+          <span class="badge <%= actuacio.finalitza_actuacio ? 'bg-success' : 'bg-warning text-dark' %>">
+            <%= actuacio.finalitza_actuacio ? 'Finalitzada' : 'En curs' %>
+          </span>
+
+          <!-- Botons -->
+          <div class="d-flex gap-2">
+            <a href="/actuacions/<%= actuacio.id_actuacio %>/edit" class="btn btn-sm btn-outline-success" title="Editar">
+              <i class="bi bi-pencil"></i>
+            </a>
+            <a href="/actuacions/<%= actuacio.id_actuacio %>/delete" class="btn btn-sm btn-outline-danger" title="Eliminar">
+              <i class="bi bi-trash"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+<script>
+  // Filtrar per estat (Finalitzada o En curs)
+  document.getElementById('filterFinalitzada').addEventListener('change', function () {
+    const estat = this.value; // "true", "false" o ""
+    document.querySelectorAll('#actuacioList .card').forEach(card => {
+      const badge = card.querySelector('.card-footer .badge').textContent.toLowerCase();
+      const mostrar = !estat || (estat === 'true' && badge.includes('finalitzada')) || (estat === 'false' && badge.includes('en curs'));
+      card.style.display = mostrar ? 'block' : 'none';
+    });
+  });
+
+  // Filtrar per text (descripció, tècnic, etc.)
+  document.getElementById('searchInput').addEventListener('input', function () {
+    const val = this.value.toLowerCase();
+    document.querySelectorAll('#actuacioList .card').forEach(card => {
+      card.style.display = card.innerText.toLowerCase().includes(val) ? 'block' : 'none';
+    });
+  });
+
+  // Ordenar per data (més recents o més antics)
+  document.getElementById('sortOrder').addEventListener('change', function () {
+    const order = this.value;
+    const list = document.getElementById('actuacioList');
+    const cards = Array.from(list.querySelectorAll('.card'));
+
+    cards.sort((a, b) => {
+      const dateA = new Date(a.querySelector('.card-body').innerText.match(/\d{1,2}\/\d{1,2}\/\d{4}/));
+      const dateB = new Date(b.querySelector('.card-body').innerText.match(/\d{1,2}\/\d{1,2}\/\d{4}/));
+      return order === 'recent' ? dateB - dateA : dateA - dateB;
+    });
+
+    cards.forEach(card => list.appendChild(card)); // Reordenar
+  });
+</script>
+
+<%- include('../partials/footer') %>
+

@@ -12,7 +12,7 @@ const Tecnic = sequelize.define('Tecnic', {
     allowNull: false,
   }
 }, {
-  tableName: 'tecnics',
+  tableName: 'Tecnic',
   timestamps: false,
 });
 

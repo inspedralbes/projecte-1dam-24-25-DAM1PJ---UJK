@@ -1,0 +1,147 @@
+<!-- views/admin/log_stats.ejs -->
+<%- include('../partials/header', { title: title }) %>
+
+<div class="container mt-4">
+    <h1><%= title %></h1>
+
+    <% if (error) { %>
+        <div class="alert alert-danger"><%= error %></div>
+    <% } %>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Logs por Nivel</h2>
+            <% if (logsByLevel && logsByLevel.length) { %>
+                <ul class="list-group">
+                    <% logsByLevel.forEach(item => { %>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <%= item._id || 'Desconocido' %>
+                            <span class="badge bg-primary rounded-pill"><%= item.count %></span>
+                        </li>
+                    <% }); %>
+                </ul>
+            <% } else { %><p>No hay datos.</p><% } %>
+        </div>
+
+        <div class="col-md-6">
+            <h2>Páginas Más Visitadas (Top 10)</h2>
+            <% if (topPages && topPages.length) { %>
+                <ul class="list-group">
+                    <% topPages.forEach(item => { %>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span style="max-width: 80%; overflow-wrap: break-word;"><%= item._id %></span>
+                            <span class="badge bg-success rounded-pill"><%= item.count %></span>
+                        </li>
+                    <% }); %>
+                </ul>
+            <% } else { %><p>No hay datos.</p><% } %>
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Logs por Usuario (Top 10)</h2>
+            <% if (logsByUsers && logsByUsers.length) { %>
+                <ul class="list-group">
+                    <% logsByUsers.forEach(item => { %>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <%= item._id %>
+                            <span class="badge bg-info rounded-pill"><%= item.count %></span>
+                        </li>
+                    <% }); %>
+                </ul>
+            <% } else { %><p>No hay datos.</p><% } %>
+        </div>
+         <div class="col-md-6">
+            <h2>Actividad por Día (Últimos 30 días)</h2>
+            <% if (activityByDay && activityByDay.length > 0) { %> <!-- Condición para mostrar el canvas solo si hay datos -->
+                <canvas id="activityChart"></canvas> <!-- Para Chart.js -->
+            <% } else if (!error) { %> <!-- Si no hay error pero tampoco hay datos -->
+                <p>No hay datos de actividad para mostrar.</p>
+            <% } %>
+        </div>
+    </div>
+
+
+    <p><a href="/admin/logs" class="btn btn-info mt-3">Ver Logs Detallados</a></p>
+    <p><a href="/index" class="btn btn-secondary mt-3">Volver al Panel Principal</a></p>
+</div>
+
+<!-- Incluir Chart.js si vas a usarlo -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- INICIO: Solución 1 para pasar datos a JavaScript ---
+        // 1. Obtener la cadena JSON desde EJS
+        const activityDataJSON = '<%- JSON.stringify(activityByDay || []) %>';
+        let activityData = []; // Inicializar como array vacío
+
+        // 2. Parsear la cadena JSON para obtener el objeto/array JavaScript
+        try {
+            activityData = JSON.parse(activityDataJSON);
+        } catch (e) {
+            console.error("Error al parsear activityDataJSON:", e);
+            console.error("Contenido de activityDataJSON:", activityDataJSON);
+            // Puedes optar por no renderizar el gráfico si hay un error de parseo
+            // o mostrar un mensaje al usuario.
+        }
+        // --- FIN: Solución 1 ---
+
+        // Asegurarse de que el elemento canvas exista antes de intentar usarlo
+        const canvasElement = document.getElementById('activityChart');
+
+        if (canvasElement && activityData && activityData.length > 0) {
+            const ctx = canvasElement.getContext('2d');
+            new Chart(ctx, {
+                type: 'line', // o 'bar'
+                data: {
+                    labels: activityData.map(item => item._id), // Asume que _id es la fecha
+                    datasets: [{
+                        label: 'Número de Accesos',
+                        data: activityData.map(item => item.count),
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1,
+                        fill: false // Opcional: para gráficos de línea sin relleno
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true, // Puedes ponerlo en false si necesitas más control sobre el tamaño
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                // Asegurar que solo se muestren enteros en el eje Y si los conteos son siempre enteros
+                                stepSize: 1 
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Fecha'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        }
+                    }
+                }
+            });
+        } else if (canvasElement) { // Si el canvas existe pero no hay datos
+            console.log("No hay datos de actividad para mostrar en el gráfico o hubo un error al parsearlos.");
+            // Opcionalmente, podrías mostrar un mensaje en lugar del canvas
+            // canvasElement.parentElement.innerHTML = '<p>No hay datos de actividad disponibles para el gráfico.</p>';
+        }
+    });
+    module.exports = router; // <--- ¡ESTO ES CRUCIAL!
+</script>
+
+<%- include('../partials/footer') %>

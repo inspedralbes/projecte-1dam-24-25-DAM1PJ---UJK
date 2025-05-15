@@ -9,16 +9,30 @@
     <div class="d-grid gap-3 d-md-block">
       <a href="/incidencies/new" class="btn btn-primary me-2 mb-2">Crear incidència (Usuari)</a>
       <a href="/incidencies" class="btn btn-secondary me-2 mb-2">Llistat d'incidències (Usuari)</a>
-      <a href="/actuacions/new" class="btn btn-success me-2 mb-2">Crear actuació (Tècnic)</a>
-      <a href="/incidencies/1/assignacions" class="btn btn-warning mb-2">Assignar/Editar incidència (Tècnic/Admin)</a>
+      <a href="/actuacions/create" class="btn btn-success me-2 mb-2">Crear actuació (Tècnic)</a> <%# Ruta de F1, estilo de F1/F2 %>
+      <a href="/actuacions" class="btn btn-info me-2 mb-2">Llistat d'actuacions (Tècnic/Admin)</a> <%# Botón de F2, se le asigna btn-info para diferenciarlo %>
+      <a href="/admin/gestionar-incidencies" class="btn btn-warning mb-2">Assignar/Editar incidència (Tècnic/Admin)</a> <%# Botón de F1. ATENCIÓ: El '1' en la URL és hardcodejat. Revisar si aquesta ruta és correcta i generalitzable. %>
     </div>
   </div>
 
-  <div class="alert alert-info mt-4">
+  <%# Bloque de Admin de F1 %>
+  <% if (typeof user !== 'undefined' && user && user.rol === 'administrador') { %> <%# Asume que tienes user en locals y user.rol %>
+    <div class="admin-actions mt-4">
+        <h5 class="mb-3">Accions d'Administrador:</h5>
+        <div class="list-group">
+          <a href="/admin/logs" class="list-group-item list-group-item-action">Veure Logs d'Accés</a>
+          <a href="/admin/logs/stats" class="list-group-item list-group-item-action">Veure Estadístiques de Logs</a>
+        </div>
+    </div>
+  <% } %>
+
+<% if (typeof user !== 'undefined' && user && (user.rol === 'Tècnic' || user.rol === 'Professor/a' || user.rol === 'administrador')) { %>
+  <a href="/admin/gestionar-incidencies" class="btn btn-warning mb-2">Assignar/Editar incidència (Tècnic/Admin)</a>
+<% } %>
+
+  <div class="alert alert-info mt-5"> <%# Ajustado el margen superior para separar del bloque admin si aparece %>
     Si tens qualsevol dubte, posa't en contacte amb l'equip tècnic.
   </div>
 </div>
-
-
 
 <%- include('partials/footer') %>

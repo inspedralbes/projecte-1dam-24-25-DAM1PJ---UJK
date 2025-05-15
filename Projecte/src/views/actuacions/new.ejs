@@ -1,0 +1,60 @@
+<%- include('../partials/header', { title: 'Afegir actuació' }) %>
+
+<div class="d-flex justify-content-center my-5">
+  <div class="col-lg-8 col-md-10">
+    <div class="card shadow-sm">
+      <div class="card-header bg-dark text-white">Nova Actuació</div>
+      <div class="card-body">
+        <form action="/actuacions/create" method="POST">
+          <div class="mb-3">
+            <label for="id_tecnic" class="form-label">Tècnic</label>
+            <select name="id_tecnic" id="id_tecnic" class="form-control" required>
+              <option value="">-- Selecciona un tècnic --</option>
+              <% tecnics.forEach(tecnic => { %>
+                <option value="<%= tecnic.id_tecnic %>"><%= tecnic.nom %></option>
+              <% }) %>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="finalitza_actuacio" class="form-label">Finalitza Actuació</label>
+            <select name="finalitza_actuacio" id="finalitza_actuacio" class="form-control" required>
+              <option value="false">No</option>
+              <option value="true">Sí</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="data_actuacio" class="form-label">Data Actuació</label>
+            <input type="datetime-local" name="data_actuacio" id="data_actuacio" class="form-control" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="descripcio" class="form-label">Descripció</label>
+            <textarea name="descripcio" id="descripcio" class="form-control" required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="id_incidencia" class="form-label">Incidència</label>
+            <select name="id_incidencia" id="id_incidencia" class="form-control" required>
+              <option value="">-- Selecciona una incidència --</option>
+              <% incidencies.forEach(incidencia => { %>
+                <option value="<%= incidencia.id_incidencia %>">
+                  <%= incidencia.id_incidencia %> - <%= incidencia.descripcio.slice(0, 40) %>...
+                </option>
+              <% }) %>
+            </select>
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-plus-circle me-2"></i>Crear Actuació
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -5,9 +5,11 @@
   <title><%= title %></title>
   <link
     rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/cosmo/bootstrap.min.css" 
     crossorigin="anonymous"
   />
+  <%# Si prefieren Bootstrap estándar, usar la siguiente línea en su lugar y comentar la de Bootswatch: %>
+  <%# <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" crossorigin="anonymous" /> %>
 </head>
 <body class="bg-light">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
@@ -15,12 +17,17 @@
       <a class="navbar-brand" href="/">Gestió d'Incidències</a>
       <div>
         <ul class="navbar-nav me-auto">
-          <li class="nav-item"><a class="nav-link" href="/">Inici</a></li>
+          <li class="nav-item"><a class="nav-link" href="/index">Inici</a></li>
           <li class="nav-item"><a class="nav-link" href="/incidencies">Incidències</a></li>
-          <li class="nav-item"><a class="nav-link" href="/tipus">Tipus</a></li>
-          <li class="nav-item"><a class="nav-link" href="/usuaris">Usuaris</a></li>
+          <li class="nav-item"><a class="nav-link" href="/actuacions">Actuacions</a></li>     <!-- De F2 -->
+          <li class="nav-item"><a class="nav-link" href="/tipus">Tipus</a></li>             <!-- De F1 -->
+          <li class="nav-item"><a class="nav-link" href="/usuaris">Usuaris</a></li>           <!-- De F1 -->
+          <li class="nav-item"><a class="nav-link" href="/assignacions">Admin</a></li>       <!-- De F2, apunta a /assignacions -->
+          <%# Considerar si "Tipus" y "Usuaris" deberían estar bajo un menú "Admin" o si "/assignacions" ya los cubre. %>
+          <%# Por ahora, se incluyen todos para no perder funcionalidad. %>
         </ul>
       </div>
     </div>
   </nav>
   <div class="container">
+    <%# El resto del contenido de la página irá aquí %>

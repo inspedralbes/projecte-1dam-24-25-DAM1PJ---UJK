@@ -6,43 +6,73 @@
       <div class="card-header bg-dark text-white">Nova Incidència</div>
       <div class="card-body">
         <form action="/incidencies/create" method="POST">
+
           <div class="mb-3">
-            <label for="id_usuari" class="form-label">ID Usuari</label>
-            <input type="number" name="id_usuari" class="form-control" required />
+            <label for="id_usuari" class="form-label">Usuari</label>
+            <select name="id_usuari" id="id_usuari" class="form-control" required>
+              <option value="">-- Selecciona un usuari --</option>
+              <% if (typeof usuaris !== 'undefined' && usuaris && usuaris.length > 0) { %> 
+                <% usuaris.forEach(usuari => { %>
+                  <option value="<%= usuari.id_usuari %>">
+                    <%= usuari.id_usuari %> - <%= usuari.nom %>
+                  </option>
+                <% }) %>
+              <% } else { %>
+                <option value="" disabled>No hi ha usuaris disponibles</option>
+              <% } %>
+            </select>
           </div>
+
           <div class="mb-3">
-            <label for="id_tipus" class="form-label">ID Tipus</label>
-            <input type="number" name="id_tipus" class="form-control" required />
+            <label for="id_tipus" class="form-label">Tipus</label>
+            <select name="id_tipus" id="id_tipus" class="form-control" required>
+              <option value="">-- Selecciona un tipus --</option>
+              <% if (typeof tipusList !== 'undefined' && tipusList && tipusList.length > 0) { %>
+                <% tipusList.forEach(tipus => { %>
+                  <option value="<%= tipus.id_tipus %>">
+                    <%= tipus.nom %>
+                  </option>
+                <% }) %>
+              <% } else { %>
+                <option value="" disabled>No hi ha tipus disponibles</option>
+              <% } %>
+            </select>
           </div>
+
           <div class="mb-3">
             <label for="descripcio" class="form-label">Descripció</label>
-            <textarea name="descripcio" class="form-control" required></textarea>
+            <textarea name="descripcio" id="descripcio" class="form-control" required></textarea>
           </div>
+
           <div class="mb-3">
             <label for="datetime_creada" class="form-label">Data i hora de creació</label>
-            <input type="datetime-local" name="datetime_creada" class="form-control" required />
+            <input type="datetime-local" name="datetime_creada" id="datetime_creada" class="form-control" required />
           </div>
+
           <div class="mb-3">
             <label for="ubicacio" class="form-label">Ubicació</label>
-            <input type="text" name="ubicacio" class="form-control" required />
+            <input type="text" name="ubicacio" id="ubicacio" class="form-control" required />
           </div>
+
           <div class="mb-3">
             <label for="estat" class="form-label">Estat</label>
-            <select name="estat" class="form-control" required>
+            <select name="estat" id="estat" class="form-control" required>
               <option value="Oberta">Oberta</option>
-              <option value="En procès">En procès</option>
+              <option value="En procés">En procés</option> <%# Ojo: el ENUM en el modelo suele ser 'En procès' %>
               <option value="Tancada">Tancada</option>
             </select>
           </div>
+
           <div class="mb-3">
             <label for="prioritat" class="form-label">Prioritat</label>
-            <select name="prioritat" class="form-control" required>
+            <select name="prioritat" id="prioritat" class="form-control" required>
               <option value="Baixa">Baixa</option>
               <option value="Mitjana">Mitjana</option>
               <option value="Alta">Alta</option>
-              <option value="Critica">Critica</option>
+              <option value="Crítica">Crítica</option> <%# Ojo: el ENUM en el modelo suele ser 'Critica' %>
             </select>
           </div>
+
           <div class="d-grid">
             <button type="submit" class="btn btn-success">
               <i class="bi bi-send-fill me-2"></i>Crear Incidència
