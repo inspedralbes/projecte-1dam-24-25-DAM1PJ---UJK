@@ -2,17 +2,13 @@
 const express = require('express');
 const router = express.Router();
 const { connectToMongoLogger } = require('../logger'); // Para acceder a la DB
-const { MongoClient } = require('mongodb'); // Necesario si logger.js no expone 'db' directamente
+const { MongoClient } = require('mongodb'); 
 
-// Middleware de autenticación/autorización (¡MUY IMPORTANTE!)
-// Deberías tener un middleware que verifique si el usuario es administrador
-// Aquí un placeholder, DEBES IMPLEMENTARLO CORRECTAMENTE
+
 const isAdmin = (req, res, next) => {
-    if (req.user && req.user.rol === 'Tecnico') { // Ajusta 'administrador' a tu rol
+    if (req.user && req.user.rol === 'Tecnico') { // Ajusta 'Tecnico' a tu rol
         return next();
     }
-    // req.flash('error', 'Acceso no autorizado.'); // Si usas connect-flash
-    // res.redirect('/'); // O a una página de login/error
     res.status(403).send('Acceso denegado. Debes ser administrador.');
 };
 
@@ -23,7 +19,6 @@ router.get('/', async (req, res) => {
     try {
         const db = await connectToMongoLogger(); // Obtiene la instancia de la BD del logger
         if (!db) {
-            // return res.status(500).send('No se pudo conectar a la base de datos de logs.');
             return res.render('admin/view_logs', {
                 title: 'Logs de Acceso',
                 logs: [],
@@ -75,7 +70,7 @@ router.get('/', async (req, res) => {
         });
     } catch (error) {
         console.error("Error al obtener logs:", error);
-        // logger.error("Error al obtener logs para el panel de admin", error); // Loguear el error mismo
+        logger.error("Error al obtener logs para el panel de admin", error); // Loguear el error mismo
         res.status(500).render('admin/view_logs', {
             title: 'Logs de Acceso',
             logs: [],

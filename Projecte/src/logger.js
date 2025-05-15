@@ -27,7 +27,6 @@ async function connectToMongoLogger() {
             client.on('close', () => {
                 console.warn('Conexión de MongoDB para logging cerrada. Intentando reconectar en el próximo log...');
                 db = null;
-                // Podrías implementar una lógica de reintento más robusta aquí
             });
         }
         db = client.db(DB_NAME);
@@ -35,8 +34,6 @@ async function connectToMongoLogger() {
     } catch (err) {
         console.error('Error al conectar con MongoDB para logging:', err.message);
         db = null;
-        // En producción, podrías tener un sistema de fallback (e.g., loguear a consola o archivo)
-        // throw err; // Puedes decidir si relanzar el error o simplemente loguear y continuar
         return null; // Indica que la conexión falló
     }
 }

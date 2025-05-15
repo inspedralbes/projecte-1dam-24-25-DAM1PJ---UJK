@@ -1,9 +1,9 @@
 require('dotenv').config();
 const express = require('express');
-const path = require('path'); // Corregido, solo una asignación
+const path = require('path');
 const sequelize = require('./db');
 
-// Modelos (común a ambos)
+// Modelos
 const Incidencia = require('./models/Incidencia');
 const Actuacio = require('./models/Actuacio');
 const Tecnic = require('./models/Tecnic');
@@ -11,14 +11,14 @@ const Departament = require('./models/Departament');
 const Tipus = require('./models/Tipus');
 const Usuari = require('./models/Usuari');
 
-// Logger MongoDB (de F1)
+// Logger MongoDB
 const { logger, connectToMongoLogger, closeMongoLoggerConnection } = require('./logger');
 
 // Rutas EJS
 const incidenciesRoutesEJS = require('./routes/incidenciesEJS.routes');
-const assignacionsRoutes = require('./routes/assignacionsEJS.routes'); // Importado en F1, conservado
-const adminLogsRoutes = require('./routes/adminLogs.routes.js');   // De F1
-const actuacionsRoutes = require('./routes/actuacions.routes');     // De F2
+const assignacionsRoutes = require('./routes/assignacionsEJS.routes');
+const adminLogsRoutes = require('./routes/adminLogs.routes.js');   
+const actuacionsRoutes = require('./routes/actuacions.routes');    
 
 // Inicializar app
 const app = express();
@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware para capturar accesos y loguear (de F1)
+// Middleware para capturar accesos y loguear
 app.use((req, res, next) => {
     const start = Date.now();
     res.on('finish', () => {
@@ -56,10 +56,9 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Rutes
 app.use('/incidencies', incidenciesRoutesEJS);
-app.use('/admin/logs', adminLogsRoutes);      // De F1
-app.use('/actuacions', actuacionsRoutes);     // De F2
-// Nota: assignacionsRoutes se importa pero no se usa con app.use(). Si es necesario, añadir:
-// app.use('/assignacions', assignacionsRoutes);
+app.use('/admin/logs', adminLogsRoutes);     
+app.use('/actuacions', actuacionsRoutes);     
+app.use('/assignacions', assignacionsRoutes);
 
 // Ruta principal (login)
 app.get('/', (req, res) => {
@@ -71,8 +70,8 @@ app.get('/admin/gestionar-incidencies', /* esTecnicoOAdmin, (si tienes autentica
     try {
         const incidencies = await Incidencia.findAll({
             include: [ // Para mostrar el nombre del usuario y el tipo, no solo los IDs
-                { model: Usuari, attributes: ['nom', 'id_usuari'] }, // Asumiendo que tu modelo Usuario es 'Usuari'
-                { model: Tipus, attributes: ['nom', 'id_tipus'] }   // Asumiendo que tu modelo Tipo es 'Tipus'
+                { model: Usuari, attributes: ['nom', 'id_usuari'] },
+                { model: Tipus, attributes: ['nom', 'id_tipus'] }  
             ],
             order: [['datetime_creada', 'DESC']] // Mostrar las más recientes primero
         });
@@ -95,9 +94,6 @@ app.get('/register', (req, res) => {
 
 // Ruta para mostrar el index
 app.get('/index', (req, res) => {
-  // Asegurarse de pasar 'user' a la vista si la lógica de la vista lo requiere
-  // Por ejemplo, si el header o index.ejs depende de 'user':
-  // const user = req.session.user; // Si usas sesiones y guardas el usuario ahí
   res.render('index', { title: 'Panel de Control', error: null /*, user */ });
 });
 
@@ -176,7 +172,7 @@ const createDefaultData = async () => {
             });
             logger.info('Tècnic de prova (Juan) creat/trobat', { data: tecnic1[0].toJSON() });
 
-            const tecnic2 = await Tecnic.findOrCreate({ // Añadido de F2
+            const tecnic2 = await Tecnic.findOrCreate({
                 where: { nom: 'Torres' },
                 defaults: { nom: 'Torres' },
                 transaction: t,
@@ -188,7 +184,7 @@ const createDefaultData = async () => {
                 defaults: {
                     nom: 'Marc',
                     rol: 'Professor/a',
-                    password: '12345', // Añadido de F2 (Asegúrate que el modelo Usuari maneje esto)
+                    password: '12345', 
                     id_departament: departament[0].id_departament,
                 },
                 transaction: t,
@@ -214,7 +210,7 @@ const createDefaultData = async () => {
                 where: { descripcio: 'Revisió de l’endoll', id_incidencia: incidencia[0].id_incidencia },
                 defaults: {
                     id_tecnic: tecnic1[0].id_tecnic,
-                    finalitza_actuacio: true, // De F2 (más explícito que 1)
+                    finalitza_actuacio: true, 
                     data_actuacio: new Date(),
                     descripcio: 'Revisió de l’endoll',
                     id_incidencia: incidencia[0].id_incidencia,
@@ -237,7 +233,7 @@ const createDefaultData = async () => {
     await connectToMongoLogger();
     logger.info('Logger conectado a MongoDB.');
 
-    await sequelize.sync({ force: true }); // OJO: force:true borra y recrea tablas
+    await sequelize.sync({ force: true }); 
     logger.info('Base de dades SQL (Sequelize) sincronitzada.');
 
     await createDefaultData();
@@ -254,7 +250,7 @@ const createDefaultData = async () => {
   }
 })();
 
-// Manejo Esencial de Cierre Ordenado para el Logger (de F1)
+// Manejo Esencial de Cierre Ordenado para el Logger
 async function gracefulShutdown(signal) {
     logger.warn(`Señal ${signal} recibida. Iniciando cierre ordenado...`);
     console.log(`\nCerrando la aplicación debido a ${signal}...`);
