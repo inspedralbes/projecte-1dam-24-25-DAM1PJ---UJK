@@ -7,83 +7,91 @@
     </div>
     <div class="card-body"> 
       <form action="/incidencies/<%= incidencia.id_incidencia %>/update" method="POST">
-        
+
+        <!-- Usuari (disabled + hidden input for submission) -->
         <div class="mb-3">
           <label for="id_usuari" class="form-label">Usuari</label> 
-          <select name="id_usuari" id="id_usuari" class="form-select" required>
-            <%# Asegurarse que 'usuaris' se pasa desde el controlador %>
+          <select class="form-select" id="id_usuari" disabled>
             <% if (typeof usuaris !== 'undefined' && usuaris.length > 0) { %>
               <% usuaris.forEach(usuari => { %>
                 <option value="<%= usuari.id_usuari %>" <%= usuari.id_usuari === incidencia.id_usuari ? 'selected' : '' %>>
                   <%= usuari.id_usuari %> - <%= usuari.nom %>
                 </option>
               <% }) %>
-            <% } else if (incidencia.id_usuari) { %>
-              <%# Fallback si usuaris no está disponible pero tenemos un id_usuari %>
-              <option value="<%= incidencia.id_usuari %>" selected>ID: <%= incidencia.id_usuari %> (Actual, llista no disponible)</option>
+            <% } else { %>
+              <option selected><%= incidencia.id_usuari %> (Llista no disponible)</option>
             <% } %>
           </select>
+          <input type="hidden" name="id_usuari" value="<%= incidencia.id_usuari %>">
         </div>
 
+        <!-- Tipus -->
         <div class="mb-3">
           <label for="id_tipus" class="form-label">Tipus</label> 
-          <select name="id_tipus" id="id_tipus" class="form-select" required>
-            <%# Asegurarse que 'tipusList' se pasa desde el controlador %>
+          <select class="form-select" id="id_tipus" disabled>
             <% if (typeof tipusList !== 'undefined' && tipusList.length > 0) { %>
               <% tipusList.forEach(tipus => { %>
                 <option value="<%= tipus.id_tipus %>" <%= tipus.id_tipus === incidencia.id_tipus ? 'selected' : '' %>>
                   <%= tipus.nom %>
                 </option>
               <% }) %>
-            <% } else if (incidencia.id_tipus) { %>
-              <%# Fallback si tipusList no está disponible pero tenemos un id_tipus %>
-              <option value="<%= incidencia.id_tipus %>" selected>ID: <%= incidencia.id_tipus %> (Actual, llista no disponible)</option>
+            <% } else { %>
+              <option selected><%= incidencia.id_tipus %> (Llista no disponible)</option>
             <% } %>
           </select>
+          <input type="hidden" name="id_tipus" value="<%= incidencia.id_tipus %>">
         </div>
 
+        <!-- Descripció (editable) -->
         <div class="mb-3">
           <label for="descripcio" class="form-label">Descripció</label>
           <textarea name="descripcio" id="descripcio" class="form-control" rows="4" required><%= incidencia.descripcio %></textarea> 
         </div>
 
+        <!-- Data creació -->
         <div class="mb-3">
           <label for="datetime_creada" class="form-label">Data i hora de creació</label>
-          <input type="datetime-local" name="datetime_creada" id="datetime_creada" value="<%= incidencia.datetime_creada.toISOString().slice(0, 16) %>" class="form-control" required />
+          <input type="datetime-local" id="datetime_creada" class="form-control" value="<%= incidencia.datetime_creada.toISOString().slice(0, 16) %>" disabled>
+          <input type="hidden" name="datetime_creada" value="<%= incidencia.datetime_creada.toISOString().slice(0, 16) %>">
         </div>
 
+        <!-- Ubicació -->
         <div class="mb-3">
           <label for="ubicacio" class="form-label">Ubicació</label>
-          <input type="text" name="ubicacio" id="ubicacio" value="<%= incidencia.ubicacio %>" class="form-control" required />
+          <input type="text" id="ubicacio" class="form-control" value="<%= incidencia.ubicacio %>" disabled>
+          <input type="hidden" name="ubicacio" value="<%= incidencia.ubicacio %>">
         </div>
 
+        <!-- Estat -->
         <div class="mb-3">
           <label for="estat" class="form-label">Estat</label>
-          <select name="estat" id="estat" class="form-select" required> 
-            <option <%= incidencia.estat === 'Oberta' ? 'selected' : '' %> value="Oberta">Oberta</option>
-            <option <%= incidencia.estat === 'En procès' ? 'selected' : '' %> value="En procès">En procès</option>
-            <option <%= incidencia.estat === 'Tancada' ? 'selected' : '' %> value="Tancada">Tancada</option>
+          <select id="estat" class="form-select" disabled>
+            <option <%= incidencia.estat === 'Oberta' ? 'selected' : '' %>>Oberta</option>
+            <option <%= incidencia.estat === 'En procès' ? 'selected' : '' %>>En procès</option>
+            <option <%= incidencia.estat === 'Tancada' ? 'selected' : '' %>>Tancada</option>
           </select>
+          <input type="hidden" name="estat" value="<%= incidencia.estat %>">
         </div>
 
-        <div class="mb-4"> 
+        <!-- Prioritat -->
+        <div class="mb-4">
           <label for="prioritat" class="form-label">Prioritat</label>
-          <select name="prioritat" id="prioritat" class="form-select" required> 
-            <option <%= incidencia.prioritat === 'Baixa' ? 'selected' : '' %> value="Baixa">Baixa</option>
-            <option <%= incidencia.prioritat === 'Mitjana' ? 'selected' : '' %> value="Mitjana">Mitjana</option>
-            <option <%= incidencia.prioritat === 'Alta' ? 'selected' : '' %> value="Alta">Alta</option>
-            <option <%= incidencia.prioritat === 'Critica' ? 'selected' : '' %> value="Critica">Critica</option>
+          <select id="prioritat" class="form-select" disabled>
+            <option <%= incidencia.prioritat === 'Baixa' ? 'selected' : '' %>>Baixa</option>
+            <option <%= incidencia.prioritat === 'Mitjana' ? 'selected' : '' %>>Mitjana</option>
+            <option <%= incidencia.prioritat === 'Alta' ? 'selected' : '' %>>Alta</option>
+            <option <%= incidencia.prioritat === 'Critica' ? 'selected' : '' %>>Critica</option>
           </select>
+          <input type="hidden" name="prioritat" value="<%= incidencia.prioritat %>">
         </div>
 
+        <!-- Botó -->
         <div class="d-grid"> 
           <button type="submit" class="btn btn-success"> 
-            <i class="bi bi-save me-2"></i> Actualitzar Incidència
+            <i class="bi bi-save me-2"></i> Actualitzar Descripció
           </button>
         </div>
       </form>
     </div>
   </div>
 </div>
-
-<%- include('../partials/footer') %>
