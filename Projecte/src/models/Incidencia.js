@@ -5,26 +5,22 @@ const Incidencia = sequelize.define('Incidencia', {
   id_incidencia: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true,
-  },
-  id_usuari: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
+    autoIncrement: true
   },
   id_tipus: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: false
+  },
+  id_departament: {
+    type: DataTypes.INTEGER,
+    allowNull: false
   },
   descripcio: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: false
   },
   datetime_creada: {
     type: DataTypes.DATE,
-    allowNull: false,
-  },
-  ubicacio: {
-    type: DataTypes.STRING,
     allowNull: false,
   },
   estat: {
@@ -35,6 +31,10 @@ const Incidencia = sequelize.define('Incidencia', {
     type: DataTypes.ENUM('Baixa', 'Mitjana', 'Alta', 'Critica'),
     allowNull: false,
   },
+}, {
+  tableName: 'Incidencia',
+  timestamps: false,
 });
 
 module.exports = Incidencia;
+

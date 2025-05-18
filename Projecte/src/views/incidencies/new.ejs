@@ -8,22 +8,6 @@
         <form action="/incidencies/create" method="POST">
 
           <div class="mb-3">
-            <label for="id_usuari" class="form-label">Usuari</label>
-            <select name="id_usuari" id="id_usuari" class="form-control" required>
-              <option value="">-- Selecciona un usuari --</option>
-              <% if (typeof usuaris !== 'undefined' && usuaris && usuaris.length > 0) { %> 
-                <% usuaris.forEach(usuari => { %>
-                  <option value="<%= usuari.id_usuari %>">
-                    <%= usuari.id_usuari %> - <%= usuari.nom %>
-                  </option>
-                <% }) %>
-              <% } else { %>
-                <option value="" disabled>No hi ha usuaris disponibles</option>
-              <% } %>
-            </select>
-          </div>
-
-          <div class="mb-3">
             <label for="id_tipus" class="form-label">Tipus</label>
             <select name="id_tipus" id="id_tipus" class="form-control" required>
               <option value="">-- Selecciona un tipus --</option>
@@ -50,15 +34,26 @@
           </div>
 
           <div class="mb-3">
-            <label for="ubicacio" class="form-label">Ubicació</label>
-            <input type="text" name="ubicacio" id="ubicacio" class="form-control" required />
+            <label for="id_departament" class="form-label">Departament</label>
+            <select name="id_departament" id="id_departament" class="form-control" required>
+              <option value="">-- Selecciona un departament --</option>
+              <% if (typeof departaments !== 'undefined' && departaments && departaments.length > 0) { %>
+                <% departaments.forEach(dept => { %>
+                  <option value="<%= dept.id_departament %>">
+                    <%= dept.id_departament %> - <%= dept.nom %>
+                  </option>
+                <% }) %>
+              <% } else { %>
+                <option value="" disabled>No hi ha departaments disponibles</option>
+              <% } %>
+            </select>
           </div>
 
           <div class="mb-3">
             <label for="estat" class="form-label">Estat</label>
             <select name="estat" id="estat" class="form-control" required>
               <option value="Oberta">Oberta</option>
-              <option value="En procés">En procés</option> <%# Ojo: el ENUM en el modelo suele ser 'En procès' %>
+              <option value="En procés">En procés</option>
               <option value="Tancada">Tancada</option>
             </select>
           </div>
@@ -69,7 +64,7 @@
               <option value="Baixa">Baixa</option>
               <option value="Mitjana">Mitjana</option>
               <option value="Alta">Alta</option>
-              <option value="Crítica">Crítica</option> <%# Ojo: el ENUM en el modelo suele ser 'Critica' %>
+              <option value="Crítica">Crítica</option>
             </select>
           </div>
 
