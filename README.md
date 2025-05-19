@@ -7,7 +7,7 @@
 
 - Diagrama Entitat Relació (Millorar):
 
-![Diagrama_ER](https://github.com/user-attachments/assets/c16cdaa3-698f-45df-8193-c6be8d3f4a8f)
+![Diagrama_ER (Final)](https://github.com/user-attachments/assets/18425527-08df-4135-bdf3-74bcafe9cccc)
 
 - Diagrama de Casos d'Ús (Afegir):
 
