@@ -49,24 +49,11 @@
             </select>
           </div>
 
-          <div class="mb-3">
-            <label for="estat" class="form-label">Estat</label>
-            <select name="estat" id="estat" class="form-control" required>
-              <option value="Oberta">Oberta</option>
-              <option value="En procés">En procés</option>
-              <option value="Tancada">Tancada</option>
-            </select>
-          </div>
+          <!-- Estat ocult (valor per defecte) -->
+          <input type="hidden" name="estat" value="En procés" />
 
-          <div class="mb-3">
-            <label for="prioritat" class="form-label">Prioritat</label>
-            <select name="prioritat" id="prioritat" class="form-control" required>
-              <option value="Baixa">Baixa</option>
-              <option value="Mitjana">Mitjana</option>
-              <option value="Alta">Alta</option>
-              <option value="Crítica">Crítica</option>
-            </select>
-          </div>
+          <!-- Prioritat oculta (valor per defecte) -->
+          <input type="hidden" name="prioritat" value="Analitzant" />
 
           <div class="d-grid">
             <button type="submit" class="btn btn-success">

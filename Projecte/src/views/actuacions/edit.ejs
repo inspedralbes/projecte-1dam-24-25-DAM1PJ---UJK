@@ -61,7 +61,7 @@
               <option value="">-- Selecciona una incidència --</option>
               <% incidencies.forEach(incidencia => { %>
                 <option value="<%= incidencia.id_incidencia %>" <%= incidencia.id_incidencia === actuacio.id_incidencia ? 'selected' : '' %>>
-                  <%= incidencia.id_incidencia %> - <%= incidencia.descripcio.slice(0, 40) %>...
+                  <%= incidencia.id_incidencia %> - <%= incidencia.descripcio ? incidencia.descripcio.slice(0, 40) : '' %>...
                 </option>
               <% }) %>
             </select>

@@ -12,7 +12,7 @@ router.post('/new', async (req, res) => {
     try {
         const { nom } = req.body;
         await Tecnic.create({ nom });
-        res.redirect('/tecnic');
+        res.redirect('/tecnic/list');
     } catch (error) {
         console.error('Error creant tècnic:', error);
         res.status(500).send('Error creant tècnic');

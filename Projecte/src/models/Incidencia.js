@@ -28,7 +28,7 @@ const Incidencia = sequelize.define('Incidencia', {
     allowNull: false,
   },
   prioritat: {
-    type: DataTypes.ENUM('Baixa', 'Mitjana', 'Alta', 'Critica'),
+    type: DataTypes.ENUM('Analitzant','Baixa', 'Mitjana', 'Alta', 'Critica'),
     allowNull: false,
   },
 }, {

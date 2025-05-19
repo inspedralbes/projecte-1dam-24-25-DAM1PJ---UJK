@@ -24,19 +24,20 @@
 
   <!-- Llistat d'incidències -->
   <div id="incidentList">
-    <% incidencies.forEach(incidencia => { %>
+    <% incidencies.forEach(function(incidencia) { %>
       <div class="card mb-3 shadow-sm">
         <div class="card-header d-flex justify-content-between align-items-center">
           <strong>ID: <%= String(incidencia.id_incidencia).slice(0, 7) %></strong>
           <span class="badge bg-primary text-uppercase"><%= incidencia.prioritat %></span>
         </div>
         <div class="card-body">
-          <h5 class="card-title">Incidència al <%= incidencia.Departament?.nom || 'N/A' %></h5>
+          <h5 class="card-title">
+            Incidència al <%= incidencia.Departament && incidencia.Departament.nom ? incidencia.Departament.nom : 'N/A' %>
+          </h5>
           <p class="card-text"><%= incidencia.descripcio %></p>
           <div class="d-flex flex-wrap align-items-center gap-3 text-muted small">
-            <span>🏢 <%= incidencia.Departament?.nom || 'Sense departament' %></span>
+            <span>🏢 <%= incidencia.Departament && incidencia.Departament.nom ? incidencia.Departament.nom : 'Sense departament' %></span>
             <span>🆔 <%= incidencia.id_incidencia %></span>
-            <!-- Usuari eliminado -->
             <span>📅 <%= new Date(incidencia.datetime_creada).toLocaleDateString() %>, <%= new Date(incidencia.datetime_creada).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) %></span>
           </div>
         </div>
@@ -58,7 +59,7 @@
   // Filtro por estado
   document.getElementById('filterEstado').addEventListener('change', function () {
     const estado = this.value.toLowerCase();
-    document.querySelectorAll('#incidentList .card').forEach(card => {
+    document.querySelectorAll('#incidentList .card').forEach(function(card) {
       const badge = card.querySelector('.card-footer .badge').textContent.toLowerCase();
       card.style.display = (!estado || badge.includes(estado)) ? 'block' : 'none';
     });
@@ -67,10 +68,10 @@
   // Filtro por búsqueda
   document.getElementById('searchInput').addEventListener('input', function () {
     const val = this.value.toLowerCase();
-    document.querySelectorAll('#incidentList .card').forEach(card => {
+    document.querySelectorAll('#incidentList .card').forEach(function(card) {
       card.style.display = card.innerText.toLowerCase().includes(val) ? 'block' : 'none';
     });
   });
 
-  // Ordenar (puedes añadir funcionalidad aquí si quieres)
+  // Ordenar (puedes afegir funcionalitat aquí si vols)
 </script>

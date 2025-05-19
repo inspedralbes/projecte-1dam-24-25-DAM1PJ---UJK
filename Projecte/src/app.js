@@ -165,8 +165,8 @@ const createDefaultData = async () => {
                     descripcio: 'Endoll fos.',
                     datetime_creada: new Date(),
                     id_departament: departament.id_departament,
-                    estat: 'Oberta',
-                    prioritat: 'Mitjana',
+                    estat: 'En Procès',
+                    prioritat: 'Analitzant',
                 },
                 transaction: t,
             });

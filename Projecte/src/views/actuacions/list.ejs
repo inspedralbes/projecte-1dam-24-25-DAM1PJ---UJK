@@ -24,7 +24,7 @@
 
   <!-- Actuacions -->
   <div id="actuacioList">
-    <% actuacions.forEach(actuacio => { %>
+    <% actuacions.forEach(function(actuacio) { %>
       <div class="card mb-3 shadow-sm">
         <div class="card-header d-flex justify-content-between">
           <strong>ID Actuació: <%= actuacio.id_actuacio %></strong>
@@ -36,7 +36,7 @@
 
         <div class="card-body">
           <h5 class="card-title">
-            Tècnic: <%= actuacio.tecnic?.nom || 'Desconegut' %>
+            Tècnic: <%= actuacio.tecnic && actuacio.tecnic.nom ? actuacio.tecnic.nom : 'Desconegut' %>
           </h5>
           <p class="card-text mb-2"><%= actuacio.descripcio %></p>
 
@@ -110,4 +110,3 @@
 </script>
 
 <%- include('../partials/footer') %>
-
