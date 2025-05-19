@@ -1,17 +1,35 @@
 <!-- src/views/index.ejs -->
 <%- include('partials/header', { title: 'Inici' }) %>
 
-<div class="container py-5">
-  <h1 class="mb-4">Benvingut al Sistema de Gestió d'Incidències</h1>
+<div
+  class="position-relative mb-5 d-flex justify-content-center align-items-center"
+  style="min-height: 420px;"
+>
+  <h1
+    class="position-relative text-white fw-bold px-5 text-center"
+    style="z-index: 2; font-size: 3.2rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.7);"
+  >
+    Benvingut al Sistema de Gestió d'Incidències
+  </h1>
+  <img
+    src="/Pedralbes.jpg"
+    alt="Fondo"
+    class="position-absolute top-0 start-0 w-100 h-100"
+    style="object-fit: cover; opacity: 0.75; z-index: 1; pointer-events: none; border-radius: 0.25rem;"
+  />
+</div>
+
+
   <p class="lead">Aquí podràs veure el nostre projecte, sobre crear un sistema de gestió d'incidències per el nostre institut. Podràs crear una incidència, veure un llistat d'aquesta i si ets un tècnic o un admin, podràs registrar una actuació i assignar una incidencia a un tècnic.</p>
+
   <div class="mt-4">
     <p class="lead">Des d'aquí pots:</p>
     <div class="d-grid gap-3 d-md-block">
       <a href="/incidencies/new" class="btn btn-primary me-2 mb-2">Crear incidència (Usuari)</a>
-      <a href="/incidencies" class="btn btn-secondary me-2 mb-2">Llistat d'incidències (Usuari)</a>
+      <a href="/incidencies" class="btn btn-warning me-2 mb-2">Llistat d'incidències (Usuari)</a>
       <a href="/actuacions/create" class="btn btn-success me-2 mb-2">Crear actuació (Tècnic)</a> <%# Ruta de F1, estilo de F1/F2 %>
       <a href="/actuacions" class="btn btn-info me-2 mb-2">Llistat d'actuacions (Tècnic/Admin)</a> <%# Botón de F2, se le asigna btn-info para diferenciarlo %>
-      <a href="/admin/gestionar-incidencies" class="btn btn-warning mb-2">Assignar/Editar incidència (Tècnic/Admin)</a> <%# Botón de F1. ATENCIÓ: El '1' en la URL és hardcodejat. Revisar si aquesta ruta és correcta i generalitzable. %>
+      <a href="/admin/gestionar-incidencies" class="btn btn-secondary mb-2">Assignar/Editar incidència (Tècnic/Admin)</a> <%# Botón de F1. ATENCIÓ: El '1' en la URL és hardcodejat. Revisar si aquesta ruta és correcta i generalitzable. %>
     </div>
   </div>
 
