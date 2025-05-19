@@ -19,6 +19,8 @@ const assignacionsRoutes = require('./routes/assignacionsEJS.routes');
 const adminLogsRoutes = require('./routes/adminLogs.routes.js');
 const actuacionsRoutes = require('./routes/actuacions.routes');
 const departamentsRoutes = require('./routes/departaments.routes');
+const tecnicsRoutes = require('./routes/tecnic.routes');
+const tipusRoutes = require('./routes/tipus.routes');
 
 // Inicializar app
 const app = express();
@@ -60,6 +62,8 @@ app.use('/admin/logs', adminLogsRoutes);
 app.use('/actuacions', actuacionsRoutes);
 app.use('/assignacions', assignacionsRoutes);
 app.use('/departament', departamentsRoutes);
+app.use('/tecnic', tecnicsRoutes);
+app.use('/tipus', tipusRoutes);
 
 // Página principal
 app.get('/', (req, res) => res.redirect('/index'));
@@ -79,9 +83,6 @@ app.get('/tipus/new', (req, res) => {
     res.render('tipus/new', { title: 'Crear Tipus' });
 });
 
-app.get('/tecnics/new', (req, res) => {
-    res.render('tecnics/new', { title: 'Crear Tècnic' });
-});
 
 // POST formularios
 
@@ -91,15 +92,6 @@ app.post('/tipus/new', async (req, res) => {
         res.redirect('/admin/control-panel');
     } catch (err) {
         res.status(500).send('Error creant tipus');
-    }
-});
-
-app.post('/tecnics/new', async (req, res) => {
-    try {
-        await Tecnic.create({ nom: req.body.nom });
-        res.redirect('/admin/control-panel');
-    } catch (err) {
-        res.status(500).send('Error creant tècnic');
     }
 });
 
