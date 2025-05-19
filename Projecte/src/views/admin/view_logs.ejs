@@ -8,12 +8,12 @@
         <div class="alert alert-danger"><%= error %></div>
     <% } %>
 
-    <form method="GET" action="/admin/logs" class="mb-3">
+    <form method="GET" action="/admin/view_logs" class="mb-3">
         <div class="input-group">
             <input type="text" name="search" class="form-control" placeholder="Buscar en logs..." value="<%= searchTerm %>">
             <button class="btn btn-outline-primary" type="submit">Buscar</button>
             <% if (searchTerm) { %>
-                 <a href="/admin/logs" class="btn btn-outline-secondary">Limpiar</a>
+                 <a href="/admin/view_logs" class="btn btn-outline-secondary">Limpiar</a>
             <% } %>
         </div>
     </form>
@@ -53,17 +53,27 @@
         <!-- Paginación -->
         <% if (totalPages > 1) { %>
             <nav aria-label="Paginación de logs">
-                <ul class="pagination">
+                <ul class="pagination justify-content-center">
                     <% if (currentPage > 1) { %>
-                        <li class="page-item"><a class="page-link" href="/admin/logs?page=<%= currentPage - 1 %>&search=<%= searchTerm %>&limit=<%= limit %>">Anterior</a></li>
-                    <% } %>
-                    <% for (let i = 1; i <= totalPages; i++) { %>
-                        <li class="page-item <%= i === currentPage ? 'active' : '' %>">
-                            <a class="page-link" href="/admin/logs?page=<%= i %>&search=<%= searchTerm %>&limit=<%= limit %>"><%= i %></a>
+                        <li class="page-item">
+                            <a class="page-link" href="/admin/view_logs?page=<%= currentPage - 1 %>&search=<%= searchTerm %>&limit=<%= limit %>">Anterior</a>
                         </li>
                     <% } %>
+
+                    <% 
+                        const startPage = Math.max(1, currentPage - 2);
+                        const endPage = Math.min(totalPages, currentPage + 2);
+                        for(let i = startPage; i <= endPage; i++) { 
+                    %>
+                        <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                            <a class="page-link" href="/admin/view_logs?page=<%= i %>&search=<%= searchTerm %>&limit=<%= limit %>"><%= i %></a>
+                        </li>
+                    <% } %>
+
                     <% if (currentPage < totalPages) { %>
-                        <li class="page-item"><a class="page-link" href="/admin/logs?page=<%= currentPage + 1 %>&search=<%= searchTerm %>&limit=<%= limit %>">Siguiente</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="/admin/view_logs?page=<%= currentPage + 1 %>&search=<%= searchTerm %>&limit=<%= limit %>">Siguiente</a>
+                        </li>
                     <% } %>
                 </ul>
             </nav>

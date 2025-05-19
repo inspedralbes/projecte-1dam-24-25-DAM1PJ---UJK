@@ -6,11 +6,10 @@ const { MongoClient } = require('mongodb');
 
 
 const isAdmin = (req, res, next) => {
-    if (req.user && req.user.rol === 'Tecnico') { // Ajusta 'Tecnico' a tu rol
-        return next();
-    }
-    res.status(403).send('Acceso denegado. Debes ser administrador.');
+    // Sin comprobación de usuario, siempre permite el acceso
+    next();
 };
+
 
 router.use(isAdmin); // Aplicar a todas las rutas de este archivo
 
@@ -148,6 +147,4 @@ router.get('/stats', async (req, res) => {
     }
 });
 
-module.exports = router; // Asegúrate que esto esté al final del archivo
-
-module.exports = router;
+module.exports = router; 

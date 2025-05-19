@@ -58,12 +58,13 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Rutas
 app.use('/incidencies', incidenciesRoutesEJS);
-app.use('/admin/logs', adminLogsRoutes);
+app.use('/admin/view_logs', adminLogsRoutes);
 app.use('/actuacions', actuacionsRoutes);
 app.use('/assignacions', assignacionsRoutes);
 app.use('/departament', departamentsRoutes);
 app.use('/tecnic', tecnicsRoutes);
 app.use('/tipus', tipusRoutes);
+app.use('/admin/logs', adminLogsRoutes);
 
 // Página principal
 app.get('/', (req, res) => res.redirect('/index'));
