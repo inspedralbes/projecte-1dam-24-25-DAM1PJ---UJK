@@ -2,6 +2,8 @@
 
 # Gestor d'Incidències
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/inspedralbes/projecte-1dam-24-25-DAM1PJ---UJK)
+
 **User Story:**
 *Como profesor del Instituto Pedralbes, quiero una aplicación para reportar y seguir incidencias, para que el personal responsable las resuelva lo antes posible.*
 
