@@ -30,4 +30,39 @@ router.get('/list', async (req, res) => {
     }
 });
 
+// Mostrar formulari d'edició de tècnic
+router.get('/:id/edit', async (req, res) => {
+    try {
+        const tecnic = await Tecnic.findByPk(req.params.id);
+        if (!tecnic) return res.status(404).send('Tècnic no trobat');
+        res.render('tecnic/edit', { title: 'Editar Tècnic', tecnic });
+    } catch (error) {
+        console.error('Error carregant tècnic:', error);
+        res.status(500).send('Error carregant el formulari d’edició');
+    }
+});
+
+// Actualitzar un tècnic
+router.post('/:id/edit', async (req, res) => {
+    try {
+        const { nom } = req.body;
+        await Tecnic.update({ nom }, { where: { id_tecnic: req.params.id } });
+        res.redirect('/tecnic/list');
+    } catch (error) {
+        console.error('Error actualitzant tècnic:', error);
+        res.status(500).send('Error actualitzant tècnic');
+    }
+});
+
+router.post('/:id/delete', async (req, res) => {
+    try {
+        await Tecnic.destroy({ where: { id_tecnic: req.params.id } });
+        res.redirect('/tecnic/list');
+    } catch (error) {
+        console.error('Error eliminant tècnic:', error);
+        res.status(500).send('Error eliminant tècnic');
+    }
+});
+
+
 module.exports = router;

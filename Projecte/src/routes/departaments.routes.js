@@ -21,11 +21,48 @@ router.post('/new', async (req, res) => {
 
 // Llistar tots els departaments
 router.get('/', async (req, res) => {
-  try {
-    const departaments = await Departament.findAll();
-    res.render('departament/list', { title: 'Llista de Departaments', departaments });
-  } catch (error) {
-    res.status(500).send('Error al carregar els departaments');
-  }
+    try {
+        const departaments = await Departament.findAll();
+        res.render('departament/list', { title: 'Llista de Departaments', departaments });
+    } catch (error) {
+        res.status(500).send('Error al carregar els departaments');
+    }
 });
+
+// Mostrar formulari per editar un departament
+router.get('/:id/edit', async (req, res) => {
+    try {
+        const departament = await Departament.findByPk(req.params.id);
+        if (!departament) return res.status(404).send('Departament no trobat');
+        res.render('departament/edit', { title: 'Editar Departament', departament });
+    } catch (error) {
+        console.error('Error carregant departament:', error);
+        res.status(500).send('Error carregant el formulari d’edició');
+    }
+});
+
+// Actualitzar un departament
+router.post('/:id/edit', async (req, res) => {
+    try {
+        const { nom } = req.body;
+        await Departament.update({ nom }, { where: { id_departament: req.params.id } });
+        res.redirect('/departament');
+    } catch (error) {
+        console.error('Error actualitzant departament:', error);
+        res.status(500).send('Error actualitzant departament');
+    }
+});
+
+// Eliminar un departament
+router.post('/:id/delete', async (req, res) => {
+    try {
+        await Departament.destroy({ where: { id_departament: req.params.id } });
+        res.redirect('/departament');
+    } catch (error) {
+        console.error('Error eliminant departament:', error);
+        res.status(500).send('Error eliminant departament');
+    }
+});
+
 module.exports = router;
+

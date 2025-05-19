@@ -1,0 +1,29 @@
+<%- include('../partials/header', { title: 'Editar Tècnic' }) %>
+
+<div class="d-flex justify-content-center my-5">
+  <div class="col-lg-8 col-md-10">
+    <div class="card shadow-sm">
+      <div class="card-header bg-dark text-white">Editar Tècnic</div>
+      <div class="card-body">
+        <form action="/tecnic/<%= tecnic.id_tecnic %>/edit" method="POST">
+          <div class="mb-3">
+            <label for="nom" class="form-label">Nom del Tècnic</label>
+            <input 
+              type="text" 
+              name="nom" 
+              id="nom" 
+              class="form-control" 
+              value="<%= tecnic.nom %>" 
+              required>
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-success">
+              <i class="bi bi-pencil-square me-2"></i>Actualitzar Tècnic
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

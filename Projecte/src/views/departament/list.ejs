@@ -1,68 +1,78 @@
 <%- include('../partials/header', { title: "Llista de departaments" }) %>
 
-<div class="container mt-4">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2>Llista de Departaments</h2>
-    <span><%= departaments.length %> departament<%= departaments.length !== 1 ? 's' : '' %></span>
-  </div>
+  <div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2>Llista de Departaments</h2>
+      <span>
+        <%= departaments.length %> departament<%= departaments.length !==1 ? 's' : '' %>
+      </span>
+    </div>
 
-  <!-- Controls -->
-  <div class="d-flex flex-column flex-md-row mb-4 gap-2">
-    <input type="text" id="searchInput" class="form-control" placeholder="Cercar per nom">
-    <select class="form-select w-auto" id="sortOrder">
-      <option value="az">A-Z</option>
-      <option value="za">Z-A</option>
-    </select>
-  </div>
+    <!-- Controls -->
+    <div class="d-flex flex-column flex-md-row mb-4 gap-2">
+      <input type="text" id="searchInput" class="form-control" placeholder="Cercar per nom">
+      <select class="form-select w-auto" id="sortOrder">
+        <option value="az">A-Z</option>
+        <option value="za">Z-A</option>
+      </select>
+    </div>
 
-  <!-- Departaments -->
-  <div id="departamentList">
-    <% departaments.forEach(dep => { %>
-      <div class="card mb-3 shadow-sm">
-        <div class="card-body d-flex justify-content-between align-items-center">
-          <div>
-            <strong>ID:</strong> <%= dep.id_departament %><br>
-            <strong>Nom:</strong> <%= dep.nom %>
-          </div>
-          <div class="d-flex gap-2">
-            <a href="/departaments/<%= dep.id_departament %>/edit" class="btn btn-sm btn-outline-primary" title="Editar">
-              <i class="bi bi-pencil"></i>
-            </a>
-            <a href="/departaments/<%= dep.id_departament %>/delete" class="btn btn-sm btn-outline-danger" title="Eliminar">
-              <i class="bi bi-trash"></i>
-            </a>
+    <!-- Departaments -->
+    <div id="departamentList">
+      <% departaments.forEach(dep=> { %>
+        <div class="card mb-3 shadow-sm">
+          <div class="card-body d-flex justify-content-between align-items-center">
+            <div>
+              <strong>ID:</strong>
+              <%= dep.id_departament %><br>
+                <strong>Nom:</strong>
+                <%= dep.nom %>
+            </div>
+            <div class="d-flex gap-2">
+              <form action="/departament/<%= dep.id_departament %>/edit" method="GET" style="display:inline;">
+                <button type="submit" class="btn btn-sm btn-outline-primary" title="Editar">
+                  <i class="bi bi-pencil"></i>
+                </button>
+              </form>
+
+              <form action="/departament/<%= dep.id_departament %>/delete" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar"
+                  onclick="return confirm('Segur que vols eliminar aquest departament?')">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </form>
+
+            </div>
           </div>
         </div>
-      </div>
-    <% }) %>
+        <% }) %>
+    </div>
   </div>
-</div>
 
-<script>
-  const searchInput = document.getElementById('searchInput');
-  const sortOrder = document.getElementById('sortOrder');
-  const departamentList = document.getElementById('departamentList');
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const sortOrder = document.getElementById('sortOrder');
+    const departamentList = document.getElementById('departamentList');
 
-  // Cerca
-  searchInput.addEventListener('input', () => {
-    const term = searchInput.value.toLowerCase();
-    document.querySelectorAll('#departamentList .card').forEach(card => {
-      card.style.display = card.innerText.toLowerCase().includes(term) ? 'block' : 'none';
-    });
-  });
-
-  // Ordenar
-  sortOrder.addEventListener('change', () => {
-    const order = sortOrder.value;
-    const cards = Array.from(departamentList.querySelectorAll('.card'));
-
-    cards.sort((a, b) => {
-      const nomA = a.querySelector('.card-body').innerText.toLowerCase();
-      const nomB = b.querySelector('.card-body').innerText.toLowerCase();
-      return order === 'az' ? nomA.localeCompare(nomB) : nomB.localeCompare(nomA);
+    // Cerca
+    searchInput.addEventListener('input', () => {
+      const term = searchInput.value.toLowerCase();
+      document.querySelectorAll('#departamentList .card').forEach(card => {
+        card.style.display = card.innerText.toLowerCase().includes(term) ? 'block' : 'none';
+      });
     });
 
-    cards.forEach(card => departamentList.appendChild(card));
-  });
-</script>
+    // Ordenar
+    sortOrder.addEventListener('change', () => {
+      const order = sortOrder.value;
+      const cards = Array.from(departamentList.querySelectorAll('.card'));
 
+      cards.sort((a, b) => {
+        const nomA = a.querySelector('.card-body').innerText.toLowerCase();
+        const nomB = b.querySelector('.card-body').innerText.toLowerCase();
+        return order === 'az' ? nomA.localeCompare(nomB) : nomB.localeCompare(nomA);
+      });
+
+      cards.forEach(card => departamentList.appendChild(card));
+    });
+  </script>
