@@ -28,6 +28,11 @@ const Actuacio = sequelize.define('Actuacio', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  temps_invertit: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+  },
 }, {
   tableName: 'Actuacio',
   timestamps: false,

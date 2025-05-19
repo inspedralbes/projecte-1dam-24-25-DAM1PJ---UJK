@@ -178,7 +178,8 @@ const createDefaultData = async () => {
                     finalitza_actuacio: true,
                     data_actuacio: new Date(),
                     descripcio: 'Revisió de l’endoll',
-                    id_incidencia: incidencia.id_incidencia
+                    id_incidencia: incidencia.id_incidencia,
+                    temps_invertit: 30
                 },
                 transaction: t,
             });

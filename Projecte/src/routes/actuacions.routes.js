@@ -44,7 +44,14 @@ router.get('/create', async (req, res) => {
 // Guardar la nova actuació
 router.post('/create', async (req, res) => {
   try {
-    const { id_tecnic, finalitza_actuacio, data_actuacio, descripcio, id_incidencia } = req.body;
+    const {
+      id_tecnic,
+      finalitza_actuacio,
+      data_actuacio,
+      descripcio,
+      id_incidencia,
+      temps_invertit // <-- nuevo campo
+    } = req.body;
 
     await Actuacio.create({
       id_tecnic: parseInt(id_tecnic),
@@ -52,7 +59,7 @@ router.post('/create', async (req, res) => {
       descripcio,
       data_actuacio: new Date(data_actuacio),
       finalitza_actuacio: finalitza_actuacio === 'true',
-      id_usuari: 1, // Substitueix per sessió si en tens
+      temps_invertit: parseInt(temps_invertit), // <-- nuevo campo
     });
 
     res.redirect('/actuacions');
@@ -61,6 +68,7 @@ router.post('/create', async (req, res) => {
     res.status(500).send("Error guardant l'actuació");
   }
 });
+
 
 // Formulari per editar una actuació
 router.get('/:id/edit', async (req, res) => {
@@ -90,7 +98,14 @@ router.get('/:id/edit', async (req, res) => {
 router.post('/:id/edit', async (req, res) => {
   try {
     const id = req.params.id;
-    const { id_tecnic, finalitza_actuacio, data_actuacio, descripcio, id_incidencia } = req.body;
+    const {
+      id_tecnic,
+      finalitza_actuacio,
+      data_actuacio,
+      descripcio,
+      id_incidencia,
+      temps_invertit // <-- nuevo campo
+    } = req.body;
 
     const actuacio = await Actuacio.findByPk(id);
     if (!actuacio) {
@@ -103,6 +118,7 @@ router.post('/:id/edit', async (req, res) => {
       descripcio,
       data_actuacio: new Date(data_actuacio),
       finalitza_actuacio: finalitza_actuacio === 'true',
+      temps_invertit: parseInt(temps_invertit), // <-- nuevo campo
     });
 
     res.redirect('/actuacions');
@@ -111,6 +127,7 @@ router.post('/:id/edit', async (req, res) => {
     res.status(500).send("Error actualitzant l'actuació");
   }
 });
+
 
 // Eliminar actuació
 router.get('/:id/delete', async (req, res) => {
