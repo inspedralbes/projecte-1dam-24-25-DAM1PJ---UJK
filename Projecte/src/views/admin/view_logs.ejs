@@ -1,58 +1,70 @@
-<!-- views/admin/view_logs.ejs -->
-<%- include('../partials/header', { title: title }) %>
+<%- include('../partials/header', { title }) %>
 
-<div class="container mt-4">
-    <h1><%= title %></h1>
+<div class="container mt-5">
+    <h1 class="mb-4 text-primary"><i class="bi bi-journal-text me-2"></i><%= title %></h1>
 
     <% if (error) { %>
         <div class="alert alert-danger"><%= error %></div>
     <% } %>
 
-    <form method="GET" action="/admin/view_logs" class="mb-3">
+    <!-- Cercador -->
+    <form method="GET" action="/admin/view_logs" class="mb-4">
         <div class="input-group">
-            <input type="text" name="search" class="form-control" placeholder="Buscar en logs..." value="<%= searchTerm %>">
-            <button class="btn btn-outline-primary" type="submit">Buscar</button>
+            <input type="text" name="search" class="form-control" placeholder="Cerca als logs..." value="<%= searchTerm %>">
+            <button class="btn btn-outline-primary" type="submit">Cercar</button>
             <% if (searchTerm) { %>
-                 <a href="/admin/view_logs" class="btn btn-outline-secondary">Limpiar</a>
+                <a href="/admin/view_logs" class="btn btn-outline-secondary">Netejar</a>
             <% } %>
         </div>
     </form>
 
     <% if (logs && logs.length > 0) { %>
-        <table class="table table-striped table-hover table-sm">
-            <thead>
-                <tr>
-                    <th>Timestamp</th>
-                    <th>Nivel</th>
-                    <th>Usuario</th>
-                    <th>Método</th>
-                    <th>URL</th>
-                    <th>Status</th>
-                    <th>IP</th>
-                    <th>User Agent</th>
-                    <th>Mensaje</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% logs.forEach(log => { %>
+        <!-- Taula de Logs -->
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-sm align-middle">
+                <thead class="table-light">
                     <tr>
-                        <td><%= new Date(log.timestamp).toLocaleString() %></td>
-                        <td><span class="badge bg-<%= log.level === 'ERROR' ? 'danger' : (log.level === 'WARN' ? 'warning' : 'info') %>"><%= log.level %></span></td>
-                        <td><%= log.username %><% if (log.userId) { %>(ID: <%= log.userId %>)<% } %></td>
-                        <td><%= log.method %></td>
-                        <td style="max-width: 200px; overflow-wrap: break-word;"><%= log.url %></td>
-                        <td><%= log.statusCode %></td>
-                        <td><%= log.ip %></td>
-                        <td style="max-width: 200px; font-size: 0.8em; overflow-wrap: break-word;"><%= log.userAgent %></td>
-                        <td style="max-width: 300px; overflow-wrap: break-word;"><%= log.message %></td>
+                        <th>Data i Hora</th>
+                        <th>Nivell</th>
+                        <th>Usuari</th>
+                        <th>Mètode</th>
+                        <th>URL</th>
+                        <th>Estat</th>
+                        <th>IP</th>
+                        <th>User Agent</th>
+                        <th>Missatge</th>
                     </tr>
-                <% }); %>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <% logs.forEach(log => { %>
+                        <tr>
+                            <td><%= new Date(log.timestamp).toLocaleString() %></td>
+                            <td>
+                                <span class="badge bg-<%= log.level === 'ERROR' ? 'danger' : log.level === 'WARN' ? 'warning text-dark' : 'info' %>">
+                                    <%= log.level %>
+                                </span>
+                            </td>
+                            <td>
+                                <%= log.username %>
+                                <% if (log.userId) { %>
+                                    <small class="text-muted">(ID: <%= log.userId %>)</small>
+                                <% } %>
+                            </td>
+                            <td><%= log.method %></td>
+                            <td style="max-width: 200px; overflow-wrap: break-word;"><%= log.url %></td>
+                            <td><%= log.statusCode %></td>
+                            <td><%= log.ip %></td>
+                            <td style="max-width: 200px; font-size: 0.8em; overflow-wrap: break-word;"><%= log.userAgent %></td>
+                            <td style="max-width: 300px; overflow-wrap: break-word;"><%= log.message %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
 
-        <!-- Paginación -->
+        <!-- Paginació -->
         <% if (totalPages > 1) { %>
-            <nav aria-label="Paginación de logs">
+            <nav aria-label="Paginació dels logs">
                 <ul class="pagination justify-content-center">
                     <% if (currentPage > 1) { %>
                         <li class="page-item">
@@ -63,7 +75,7 @@
                     <% 
                         const startPage = Math.max(1, currentPage - 2);
                         const endPage = Math.min(totalPages, currentPage + 2);
-                        for(let i = startPage; i <= endPage; i++) { 
+                        for (let i = startPage; i <= endPage; i++) { 
                     %>
                         <li class="page-item <%= i === currentPage ? 'active' : '' %>">
                             <a class="page-link" href="/admin/view_logs?page=<%= i %>&search=<%= searchTerm %>&limit=<%= limit %>"><%= i %></a>
@@ -72,7 +84,7 @@
 
                     <% if (currentPage < totalPages) { %>
                         <li class="page-item">
-                            <a class="page-link" href="/admin/view_logs?page=<%= currentPage + 1 %>&search=<%= searchTerm %>&limit=<%= limit %>">Siguiente</a>
+                            <a class="page-link" href="/admin/view_logs?page=<%= currentPage + 1 %>&search=<%= searchTerm %>&limit=<%= limit %>">Següent</a>
                         </li>
                     <% } %>
                 </ul>
@@ -80,10 +92,15 @@
         <% } %>
 
     <% } else if (!error) { %>
-        <p>No hay logs para mostrar.</p>
+        <div class="alert alert-info">No hi ha registres per mostrar.</div>
     <% } %>
 
-    <p><a href="/index" class="btn btn-secondary mt-3">Volver al Panel Principal</a></p>
+    <!-- Botó de tornada -->
+    <div class="mt-4">
+        <a href="/index" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i> Tornar al Panell Principal
+        </a>
+    </div>
 </div>
 
 <%- include('../partials/footer') %>

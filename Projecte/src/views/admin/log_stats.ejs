@@ -1,145 +1,159 @@
-<!-- views/admin/log_stats.ejs -->
-<%- include('../partials/header', { title: title }) %>
+<%- include('../partials/header', { title }) %>
 
-<div class="container mt-4">
-    <h1><%= title %></h1>
+<div class="container my-5">
+    <h1 class="mb-4 text-primary"><i class="bi bi-bar-chart-line-fill me-2"></i><%= title %></h1>
 
     <% if (error) { %>
         <div class="alert alert-danger"><%= error %></div>
     <% } %>
 
-    <div class="row">
-        <div class="col-md-6">
-            <h2>Logs por Nivel</h2>
-            <% if (logsByLevel && logsByLevel.length) { %>
-                <ul class="list-group">
-                    <% logsByLevel.forEach(item => { %>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <%= item._id || 'Desconocido' %>
-                            <span class="badge bg-primary rounded-pill"><%= item.count %></span>
-                        </li>
-                    <% }); %>
-                </ul>
-            <% } else { %><p>No hay datos.</p><% } %>
-        </div>
+    <div class="row gy-4">
+        <!-- Logs per Nivell -->
+        <section class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Logs per Nivell</h5>
+                </div>
+                <div class="card-body">
+                    <% if (logsByLevel && logsByLevel.length) { %>
+                        <ul class="list-group">
+                            <% logsByLevel.forEach(({ _id, count }) => { %>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span><%= _id || 'Desconegut' %></span>
+                                    <span class="badge bg-<%= _id === 'ERROR' ? 'danger' : _id === 'WARN' ? 'warning text-dark' : 'info' %> rounded-pill"><%= count %></span>
+                                </li>
+                            <% }); %>
+                        </ul>
+                    <% } else { %>
+                        <p class="text-muted fst-italic">No hi ha dades.</p>
+                    <% } %>
+                </div>
+            </div>
+        </section>
 
-        <div class="col-md-6">
-            <h2>Páginas Más Visitadas (Top 10)</h2>
-            <% if (topPages && topPages.length) { %>
-                <ul class="list-group">
-                    <% topPages.forEach(item => { %>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span style="max-width: 80%; overflow-wrap: break-word;"><%= item._id %></span>
-                            <span class="badge bg-success rounded-pill"><%= item.count %></span>
-                        </li>
-                    <% }); %>
-                </ul>
-            <% } else { %><p>No hay datos.</p><% } %>
-        </div>
+        <!-- Pàgines Més Visitades -->
+        <section class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Pàgines Més Visitades (Top 10)</h5>
+                </div>
+                <div class="card-body">
+                    <% if (topPages && topPages.length) { %>
+                        <ul class="list-group">
+                            <% topPages.forEach(({ _id, count }) => { %>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span class="text-truncate" style="max-width: 80%;" title="<%= _id %>"><%= _id %></span>
+                                    <span class="badge bg-secondary rounded-pill"><%= count %></span>
+                                </li>
+                            <% }); %>
+                        </ul>
+                    <% } else { %>
+                        <p class="text-muted fst-italic">No hi ha dades.</p>
+                    <% } %>
+                </div>
+            </div>
+        </section>
     </div>
 
-    <hr class="my-4">
+    <hr class="my-5">
 
-    <div class="row">
-        <div class="col-md-6">
-            <h2>Logs por Usuario (Top 10)</h2>
-            <% if (logsByUsers && logsByUsers.length) { %>
-                <ul class="list-group">
-                    <% logsByUsers.forEach(item => { %>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <%= item._id %>
-                            <span class="badge bg-info rounded-pill"><%= item.count %></span>
-                        </li>
-                    <% }); %>
-                </ul>
-            <% } else { %><p>No hay datos.</p><% } %>
-        </div>
-         <div class="col-md-6">
-            <h2>Actividad por Día (Últimos 30 días)</h2>
-            <% if (activityByDay && activityByDay.length > 0) { %>
-                <canvas id="activityChart"></canvas> <!-- Para Chart.js -->
-            <% } else if (!error) { %> 
-                <p>No hay datos de actividad para mostrar.</p>
-            <% } %>
-        </div>
+    <div class="row gy-4">
+        <!-- Logs per Usuari -->
+        <section class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Logs per Usuari (Top 10)</h5>
+                </div>
+                <div class="card-body">
+                    <% if (logsByUsers && logsByUsers.length) { %>
+                        <ul class="list-group">
+                            <% logsByUsers.forEach(({ _id, count }) => { %>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <%= _id %>
+                                    <span class="badge bg-dark rounded-pill"><%= count %></span>
+                                </li>
+                            <% }); %>
+                        </ul>
+                    <% } else { %>
+                        <p class="text-muted fst-italic">No hi ha dades.</p>
+                    <% } %>
+                </div>
+            </div>
+        </section>
+
+        <!-- Activitat Diària -->
+        <section class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">Activitat per Dia (Últims 30 dies)</h5>
+                </div>
+                <div class="card-body">
+                    <% if (activityByDay && activityByDay.length) { %>
+                        <div style="height: 300px;">
+                            <canvas id="activityChart"></canvas>
+                        </div>
+                    <% } else { %>
+                        <p class="text-muted fst-italic">No hi ha dades d’activitat per mostrar.</p>
+                    <% } %>
+                </div>
+            </div>
+        </section>
     </div>
 
-
-    <p><a href="/admin/view_logs" class="btn btn-info mt-3">Ver Logs Detallados</a></p>
-    <p><a href="/index" class="btn btn-secondary mt-3">Volver al Panel Principal</a></p>
+    <!-- Botons -->
+    <div class="mt-5 d-flex justify-content-between flex-wrap gap-2">
+        <a href="/admin/view_logs" class="btn btn-outline-primary"><i class="bi bi-clipboard-data me-1"></i> Veure Logs Detallats</a>
+        <a href="/index" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i> Tornar al Panell Principal</a>
+    </div>
 </div>
 
-
+<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', () => {
+        const activityData = <%- JSON.stringify(activityByDay || []) %>;
+        const canvas = document.getElementById('activityChart');
 
-
-        const activityDataJSON = '<%- JSON.stringify(activityByDay || []) %>';
-        let activityData = []; // Inicializar como array vacío
-
-
-        try {
-            activityData = JSON.parse(activityDataJSON);
-        } catch (e) {
-            console.error("Error al parsear activityDataJSON:", e);
-            console.error("Contenido de activityDataJSON:", activityDataJSON);
-
-        }
-
-
-
-        const canvasElement = document.getElementById('activityChart');
-
-        if (canvasElement && activityData && activityData.length > 0) {
-            const ctx = canvasElement.getContext('2d');
+        if (canvas && activityData.length) {
+            const ctx = canvas.getContext('2d');
             new Chart(ctx, {
-                type: 'line', 
+                type: 'line',
                 data: {
                     labels: activityData.map(item => item._id),
                     datasets: [{
-                        label: 'Número de Accesos',
+                        label: 'Accesos diaris',
                         data: activityData.map(item => item.count),
-                        borderColor: 'rgb(75, 192, 192)',
-                        tension: 0.1,
-                        fill: false 
+                        borderColor: '#0dcaf0',
+                        backgroundColor: 'rgba(13, 202, 240, 0.1)',
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 3,
+                        borderWidth: 2,
                     }]
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: true, 
+                    maintainAspectRatio: false,
                     scales: {
                         y: {
                             beginAtZero: true,
-                            ticks: {
-                                
-                                stepSize: 1 
-                            }
+                            title: { display: true, text: 'Accesos' }
                         },
                         x: {
-                            title: {
-                                display: true,
-                                text: 'Fecha'
-                            }
+                            title: { display: true, text: 'Data' },
+                            ticks: { maxRotation: 45, minRotation: 45 }
                         }
                     },
                     plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false,
-                        }
+                        legend: { display: false },
+                        title: { display: true, text: 'Activitat Diària (últims 30 dies)' }
                     }
                 }
             });
-        } else if (canvasElement) { // Si el canvas existe pero no hay datos
-            console.log("No hay datos de actividad para mostrar en el gráfico o hubo un error al parsearlos.");
-            
-
         }
     });
 </script>
 
 <%- include('../partials/footer') %>
+
+

@@ -16,7 +16,7 @@ const { logger, connectToMongoLogger, closeMongoLoggerConnection } = require('./
 // Rutas EJS
 const incidenciesRoutesEJS = require('./routes/incidenciesEJS.routes');
 const assignacionsRoutes = require('./routes/assignacionsEJS.routes');
-const adminLogsRoutes = require('./routes/adminLogs.routes.js');
+const adminLogsRoutes = require('./routes/adminLogs.routes');
 const actuacionsRoutes = require('./routes/actuacions.routes');
 const departamentsRoutes = require('./routes/departaments.routes');
 const tecnicsRoutes = require('./routes/tecnic.routes');
@@ -64,7 +64,7 @@ app.use('/assignacions', assignacionsRoutes);
 app.use('/departament', departamentsRoutes);
 app.use('/tecnic', tecnicsRoutes);
 app.use('/tipus', tipusRoutes);
-app.use('/admin/logs', adminLogsRoutes);
+app.use('/admin', adminLogsRoutes);
 
 // Página principal
 app.get('/', (req, res) => res.redirect('/index'));
