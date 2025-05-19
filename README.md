@@ -2,7 +2,7 @@
 
 # Gestor d'Incidències
 
-Documentación
+Documentación:
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/inspedralbes/projecte-1dam-24-25-DAM1PJ---UJK)
 
 **User Story:**
