@@ -64,35 +64,38 @@
 
         <!-- Paginació -->
         <% if (totalPages > 1) { %>
-            <nav aria-label="Paginació dels logs">
-                <ul class="pagination justify-content-center">
-                    <% if (currentPage > 1) { %>
-                        <li class="page-item">
-                            <a class="page-link" href="/admin/view_logs?page=<%= currentPage - 1 %>&search=<%= searchTerm %>&limit=<%= limit %>">Anterior</a>
-                        </li>
-                    <% } %>
+            <div class="mt-4 d-flex justify-content-center">
+                <nav aria-label="Paginació dels logs">
+                    <ul class="pagination mb-0">
+                        <% if (currentPage > 1) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="/admin/view_logs?page=<%= currentPage - 1 %>&search=<%= searchTerm %>&limit=<%= limit %>">Anterior</a>
+                            </li>
+                        <% } %>
 
-                    <% 
-                        const startPage = Math.max(1, currentPage - 2);
-                        const endPage = Math.min(totalPages, currentPage + 2);
-                        for (let i = startPage; i <= endPage; i++) { 
-                    %>
-                        <li class="page-item <%= i === currentPage ? 'active' : '' %>">
-                            <a class="page-link" href="/admin/view_logs?page=<%= i %>&search=<%= searchTerm %>&limit=<%= limit %>"><%= i %></a>
-                        </li>
-                    <% } %>
+                        <% 
+                            const startPage = Math.max(1, currentPage - 2);
+                            const endPage = Math.min(totalPages, currentPage + 2);
+                            for (let i = startPage; i <= endPage; i++) {
+                        %>
+                            <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                <a class="page-link" href="/admin/view_logs?page=<%= i %>&search=<%= searchTerm %>&limit=<%= limit %>">
+                                    <%= i %>
+                                </a>
+                            </li>
+                        <% } %>
 
-                    <% if (currentPage < totalPages) { %>
-                        <li class="page-item">
-                            <a class="page-link" href="/admin/view_logs?page=<%= currentPage + 1 %>&search=<%= searchTerm %>&limit=<%= limit %>">Següent</a>
-                        </li>
-                    <% } %>
-                </ul>
-            </nav>
+                        <% if (currentPage < totalPages) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="/admin/view_logs?page=<%= currentPage + 1 %>&search=<%= searchTerm %>&limit=<%= limit %>">Següent</a>
+                            </li>
+                        <% } %>
+                    </ul>
+                </nav>
+            </div>
         <% } %>
-
     <% } else if (!error) { %>
-        <div class="alert alert-info">No hi ha registres per mostrar.</div>
+        <div class="alert alert-info mt-4">No hi ha registres per mostrar.</div>
     <% } %>
 
     <!-- Botó de tornada -->
