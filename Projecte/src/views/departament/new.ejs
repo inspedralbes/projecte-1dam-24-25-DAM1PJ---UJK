@@ -1,0 +1,31 @@
+<%- include('../partials/header', { title: 'Afegir Departament' }) %>
+
+<div class="d-flex justify-content-center my-5">
+  <div class="col-lg-8 col-md-10">
+    <div class="card shadow-sm">
+      <div class="card-header bg-dark text-white">Nou Departament</div>
+      <div class="card-body">
+        <form action="/departament/new" method="POST">
+          <div class="mb-3">
+            <label for="nom" class="form-label">Nom del Departament</label>
+            <input 
+              type="text" 
+              name="nom" 
+              id="nom" 
+              class="form-control" 
+              placeholder="Introdueix el nom del departament" 
+              required>
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-plus-circle me-2"></i>Crear Departament
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

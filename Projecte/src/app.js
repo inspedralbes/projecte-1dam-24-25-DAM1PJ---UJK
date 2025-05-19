@@ -18,6 +18,7 @@ const incidenciesRoutesEJS = require('./routes/incidenciesEJS.routes');
 const assignacionsRoutes = require('./routes/assignacionsEJS.routes');
 const adminLogsRoutes = require('./routes/adminLogs.routes.js');
 const actuacionsRoutes = require('./routes/actuacions.routes');
+const departamentsRoutes = require('./routes/departaments.routes');
 
 // Inicializar app
 const app = express();
@@ -58,29 +59,55 @@ app.use('/incidencies', incidenciesRoutesEJS);
 app.use('/admin/logs', adminLogsRoutes);
 app.use('/actuacions', actuacionsRoutes);
 app.use('/assignacions', assignacionsRoutes);
-
-// Ruta principal redirige al panel de control
-app.get('/', (req, res) => {
-    res.redirect('/index');
-});
+app.use('/departament', departamentsRoutes);
 
 // Página principal
+app.get('/', (req, res) => res.redirect('/index'));
+
 app.get('/index', (req, res) => {
     res.render('index', { title: 'Panel de Control', error: null });
 });
 
-// Panel de control admin
+// Panel admin
 app.get('/admin/control-panel', (req, res) => {
     res.render('admin/control-panel', { title: 'Panell de Control Administrador', user: { rol: 'administrador' } });
 });
 
-// Gestión de incidencias
+// Formularios
+
+app.get('/tipus/new', (req, res) => {
+    res.render('tipus/new', { title: 'Crear Tipus' });
+});
+
+app.get('/tecnics/new', (req, res) => {
+    res.render('tecnics/new', { title: 'Crear Tècnic' });
+});
+
+// POST formularios
+
+app.post('/tipus/new', async (req, res) => {
+    try {
+        await Tipus.create({ nom: req.body.nom });
+        res.redirect('/admin/control-panel');
+    } catch (err) {
+        res.status(500).send('Error creant tipus');
+    }
+});
+
+app.post('/tecnics/new', async (req, res) => {
+    try {
+        await Tecnic.create({ nom: req.body.nom });
+        res.redirect('/admin/control-panel');
+    } catch (err) {
+        res.status(500).send('Error creant tècnic');
+    }
+});
+
+// Gestionar incidències admin
 app.get('/admin/gestionar-incidencies', async (req, res) => {
     try {
         const incidencies = await Incidencia.findAll({
-            include: [
-                { model: Tipus, attributes: ['nom', 'id_tipus'] }
-            ],
+            include: [{ model: Tipus, attributes: ['nom', 'id_tipus'] }],
             order: [['datetime_creada', 'DESC']]
         });
         res.render('admin/gestionar-incidencies', {
@@ -93,61 +120,19 @@ app.get('/admin/gestionar-incidencies', async (req, res) => {
     }
 });
 
-// Formulario crear departament
-app.get('/departaments/new', (req, res) => {
-    res.render('departaments/new', { title: 'Crear Departament' });
-});
-
-// Formulario crear tipus
-app.get('/tipus/new', (req, res) => {
-    res.render('tipus/new', { title: 'Crear Tipus' });
-});
-
-// Formulario crear tècnic
-app.get('/tecnics/new', (req, res) => {
-    res.render('tecnics/new', { title: 'Crear Tècnic' });
-});
-
-// POST crear departament
-app.post('/departaments/new', async (req, res) => {
-    try {
-        await Departament.create({ nom: req.body.nom });
-        res.redirect('/admin/control-panel');
-    } catch (err) {
-        res.status(500).send('Error creant departament');
-    }
-});
-
-// POST crear tipus
-app.post('/tipus/new', async (req, res) => {
-    try {
-        await Tipus.create({ nom: req.body.nom });
-        res.redirect('/admin/control-panel');
-    } catch (err) {
-        res.status(500).send('Error creant tipus');
-    }
-});
-
-// POST crear tècnic
-app.post('/tecnics/new', async (req, res) => {
-    try {
-        await Tecnic.create({ nom: req.body.nom });
-        res.redirect('/admin/control-panel');
-    } catch (err) {
-        res.status(500).send('Error creant tècnic');
-    }
-});
-
 // Puerto
 const port = process.env.PORT || 3010;
 
-// Relacions
+// Relaciones Sequelize
 Departament.hasMany(Incidencia, { foreignKey: 'id_departament' });
 Incidencia.belongsTo(Departament, { foreignKey: 'id_departament' });
+
 Tipus.hasMany(Incidencia, { foreignKey: 'id_tipus' });
 Incidencia.belongsTo(Tipus, { foreignKey: 'id_tipus' });
+
 Tecnic.hasMany(Actuacio, { foreignKey: 'id_tecnic' });
 Actuacio.belongsTo(Tecnic, { foreignKey: 'id_tecnic', as: 'tecnic' });
+
 Incidencia.hasMany(Actuacio, { foreignKey: 'id_incidencia' });
 Actuacio.belongsTo(Incidencia, { foreignKey: 'id_incidencia' });
 
@@ -194,7 +179,7 @@ const createDefaultData = async () => {
                 transaction: t,
             });
 
-            const [actuacio] = await Actuacio.findOrCreate({
+            await Actuacio.findOrCreate({
                 where: { descripcio: 'Revisió de l’endoll', id_incidencia: incidencia.id_incidencia },
                 defaults: {
                     id_tecnic: tecnic1.id_tecnic,
