@@ -25,12 +25,20 @@
             <strong>Nom:</strong> <%= tipus.nom %>
           </div>
           <div class="d-flex gap-2">
-            <a href="/tipus/<%= tipus.id_tipus %>/edit" class="btn btn-sm btn-outline-primary" title="Editar">
+            <!-- Botó Editar -->
+          <form action="/tipus/<%= tipus.id_tipus %>/edit" method="GET" style="display:inline;">
+            <button type="submit" class="btn btn-sm btn-outline-primary" title="Editar">
               <i class="bi bi-pencil"></i>
-            </a>
-            <a href="/tipus/<%= tipus.id_tipus %>/delete" class="btn btn-sm btn-outline-danger" title="Eliminar">
+            </button>
+          </form>
+
+          <!-- Botó Eliminar -->
+          <form action="/tipus/<%= tipus.id_tipus %>/delete" method="POST" style="display:inline;">
+            <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar"
+              onclick="return confirm('Segur que vols eliminar aquesta tipologia?')">
               <i class="bi bi-trash"></i>
-            </a>
+            </button>
+          </form>
           </div>
         </div>
       </div>

@@ -30,4 +30,39 @@ router.get('/list', async (req, res) => {
     }
 });
 
+// Formulari per editar un tipus existent
+router.get('/:id/edit', async (req, res) => {
+    try {
+        const tipus = await Tipus.findByPk(req.params.id);
+        if (!tipus) return res.status(404).send('Tipus no trobat');
+        res.render('tipus/edit', { title: 'Editar Tipus', tipus });
+    } catch (error) {
+        console.error('Error carregant tipus per editar:', error);
+        res.status(500).send('Error carregant tipus');
+    }
+});
+
+// Actualitzar un tipus existent
+router.post('/:id/edit', async (req, res) => {
+    try {
+        const { nom } = req.body;
+        await Tipus.update({ nom }, { where: { id_tipus: req.params.id } });
+        res.redirect('/tipus/list');
+    } catch (error) {
+        console.error('Error actualitzant tipus:', error);
+        res.status(500).send('Error actualitzant tipus');
+    }
+});
+
+// Eliminar un tipus
+router.post('/:id/delete', async (req, res) => {
+    try {
+        await Tipus.destroy({ where: { id_tipus: req.params.id } });
+        res.redirect('/tipus/list');
+    } catch (error) {
+        console.error('Error eliminant tipus:', error);
+        res.status(500).send('Error eliminant tipus');
+    }
+});
+
 module.exports = router;
